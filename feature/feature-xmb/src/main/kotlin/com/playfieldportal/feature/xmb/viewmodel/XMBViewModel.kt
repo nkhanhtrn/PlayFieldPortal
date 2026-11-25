@@ -5525,12 +5525,12 @@ class XMBViewModel @Inject constructor(
         val s = _uiState.value
         // Settings L1 flyout: the left column is the six section rows, drilled-into one centred.
         if (s.settingsSectionNav != null) {
-            // Android Settings is a real sibling of the section cards. Keep it in the left
-            // column so Library (and every other L1 section) always has a visible parent icon
-            // above the category bar, matching the established Music flyout geometry.
-            val sibs = listOf(
-                XMBItem(id = ANDROID_SETTINGS_ITEM_ID, titleText = UiText.res(R.string.xmbm_android_settings_title), subtitleText = UiText.res(R.string.xmbm_android_settings_sub)),
-            ) + SettingsSection.entries.map { XMBItem(id = it.id, titleText = it.title, subtitleText = it.subtitle) }
+            // Android Settings is a real sibling of the section cards, listed last to match the
+            // root order. Keep it in the left column so Library (and every other L1 section)
+            // always has a visible parent icon above the category bar, matching the established
+            // Music flyout geometry.
+            val sibs = SettingsSection.entries.map { XMBItem(id = it.id, titleText = it.title, subtitleText = it.subtitle) } +
+                XMBItem(id = ANDROID_SETTINGS_ITEM_ID, titleText = UiText.res(R.string.xmbm_android_settings_title), subtitleText = UiText.res(R.string.xmbm_android_settings_sub))
             val idx = sibs.indexOfFirst { it.id == s.settingsSectionNav.id }.coerceAtLeast(0)
             return sibs to idx
         }
@@ -11855,6 +11855,11 @@ class XMBViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
+            iconDisplayPreferences.icon1VideoSoundFlow.collect { sound ->
+                icon1VideoSound = sound
+            }
+        }
+        viewModelScope.launch {
             // User-adjustable rest gate (Artwork ▸ Art Preferences ▸ Video Snap Delay). Each new
             // rest starts from the current value; the in-flight delay simply runs out unchanged.
             iconDisplayPreferences.lingerDelaySecondsFlow.collect { seconds ->
@@ -11875,6 +11880,10 @@ class XMBViewModel @Inject constructor(
     // Live rest-before-play gate, fed by IconDisplayPreferences.lingerDelaySecondsFlow; starts at
     // the PSP-faithful 1.5 s and tracks the user's Video Snap Delay setting.
     @Volatile private var icon1LingerMs = ICON1_LINGER_MS
+
+    // Video Snap Sound (Artwork ▸ Art Preferences): stamped into every published snap, so the
+    // overlay knows whether to decode audio and hold the ambience down.
+    @Volatile private var icon1VideoSound = false
 
     /**
      * PSP ICON1 choreography with a battery conscience: when the cursor RESTS on a game whose
@@ -11914,7 +11923,11 @@ class XMBViewModel @Inject constructor(
                     }
                     Timber.d("ICON1: playing snap for game $gameId from $uri")
                     _uiState.update {
-                        it.copy(focusedGameVideo = com.playfieldportal.feature.xmb.ui.FocusedGameVideo(gameId, uri))
+                        it.copy(
+                            focusedGameVideo = com.playfieldportal.feature.xmb.ui.FocusedGameVideo(
+                                gameId, uri, sound = icon1VideoSound,
+                            )
+                        )
                     }
                 }
         }
@@ -12200,13 +12213,14 @@ class XMBViewModel @Inject constructor(
         // First item opens the device's own Settings app (not a PFP screen).
         internal const val ANDROID_SETTINGS_ITEM_ID = "settings_android_system"
 
-        // Settings root: the Android system-settings leaf plus the six nested L1 sections
-        // (settingsSectionItems supplies each section's L2 rows). Section rows drill into the
-        // two-pane flyout; any other id opens its screen overlay directly. `internal` so the
-        // hierarchy unit tests can assert the exact root order.
-        internal val SETTINGS_ROOT_ITEMS = listOf(
-            XMBItem(id = ANDROID_SETTINGS_ITEM_ID, titleText = UiText.res(R.string.xmbm_android_settings_title), subtitleText = UiText.res(R.string.xmbm_android_settings_sub)),
-        ) + SettingsSection.entries.map { XMBItem(id = it.id, titleText = it.title, subtitleText = it.subtitle) }
+        // Settings root: the six nested L1 sections (settingsSectionItems supplies each section's
+        // L2 rows) followed by the Android system-settings leaf LAST — the sections are what the
+        // user manages here, and the device's own Settings app is the escape hatch, so it sits
+        // below them. Section rows drill into the two-pane flyout; any other id opens its screen
+        // overlay directly. `internal` so the hierarchy unit tests can assert the exact root order.
+        internal val SETTINGS_ROOT_ITEMS =
+            SettingsSection.entries.map { XMBItem(id = it.id, titleText = it.title, subtitleText = it.subtitle) } +
+                XMBItem(id = ANDROID_SETTINGS_ITEM_ID, titleText = UiText.res(R.string.xmbm_android_settings_title), subtitleText = UiText.res(R.string.xmbm_android_settings_sub))
     }
 
     // Rebuilds the bar from the canonical built-in definitions (name/icon/position/order) merged with

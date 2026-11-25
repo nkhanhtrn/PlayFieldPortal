@@ -317,6 +317,8 @@
     <string name="setd_animated_icons_sublabel">Проигрывать видеоролик игры в её значке, если задержаться на ней (режим «Свой значок»; не при низком заряде)</string>
     <string name="setd_snap_delay">Задержка видеоролика</string>
     <string name="setd_snap_delay_sublabel">Задержитесь на игре %1$s, чтобы проигрался её ролик (1–5 секунд) — большая задержка убирает мелькание при просмотре</string>
+    <string name="setd_video_snap_sound">Звук видеоролика</string>
+    <string name="setd_video_snap_sound_sublabel">Воспроизводит звук видеоролика в значке (фоновая музыка приглушается на время воспроизведения)</string>
     <string name="setd_crop_preview">Просмотр обрезки</string>
     <string name="setd_crop_preview_sublabel">Показывать готовую плитку в углу при обрезке (Ⓨ переключает её и в редакторе обрезки)</string>
     <string name="setd_prefer_sgdb_heroes">Баннеры сначала из SteamGridDB</string>

@@ -34,7 +34,7 @@ class AppUpdateReminderTest {
 
     private val release = AppRelease(
         version = "1.3.4",
-        notesUrl = "https://github.com/JohnnyCollado/PlayFieldPortal/releases/tag/1.3.4",
+        notesUrl = "https://github.com/nkhanhtrn/PlayFieldPortal/releases/tag/1.3.4",
     )
 
     @Test

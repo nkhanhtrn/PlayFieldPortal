@@ -300,6 +300,8 @@
     <string name="setd_animated_icons_sublabel">ゲームにしばらくフォーカスすると、アイコン内でビデオスナップを再生します（カスタムアイコンモード。バッテリー残量が少ないときはスキップ）</string>
     <string name="setd_snap_delay">ビデオスナップの遅延</string>
     <string name="setd_snap_delay_sublabel">ゲームに %1$s フォーカスするとビデオスナップを再生します（1～5 秒）。長めにすると閲覧中のちらつきを防げます</string>
+    <string name="setd_video_snap_sound">ビデオクリップの音声</string>
+    <string name="setd_video_snap_sound_sublabel">アイコン内のビデオクリップの音声を再生（再生中はBGMが控えます）</string>
     <string name="setd_crop_preview">トリミングのプレビュー</string>
     <string name="setd_crop_preview_sublabel">アートワークのトリミング中に、完成したタイルを隅に表示します（トリミングエディター内では Ⓨ でも切り替え可能）</string>
     <string name="setd_prefer_sgdb_heroes">SteamGridDB のヒーローを優先</string>

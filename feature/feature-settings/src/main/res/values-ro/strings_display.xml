@@ -321,6 +321,8 @@
     <string name="setd_animated_icons_sublabel">Redă clipul video al unui joc în pictograma sa după ce te oprești pe el (modul Pictogramă personalizată; omis când bateria este scăzută)</string>
     <string name="setd_snap_delay">Întârzierea clipului video</string>
     <string name="setd_snap_delay_sublabel">Oprește-te pe un joc %1$s înainte să se redea clipul video (1–5 secunde) — întârzierile mai mari evită aparițiile bruște în timpul navigării</string>
+    <string name="setd_video_snap_sound">Sunetul clipului video</string>
+    <string name="setd_video_snap_sound_sublabel">Redă sunetul clipului video din pictogramă (muzica de fundal cedează în timpul redării)</string>
     <string name="setd_crop_preview">Previzualizare decupare</string>
     <string name="setd_crop_preview_sublabel">Afișează placa finală în colț în timp ce decupezi artwork-ul (Ⓨ o comută și în editorul de decupare)</string>
     <string name="setd_prefer_sgdb_heroes">Preferă imaginile hero SteamGridDB</string>

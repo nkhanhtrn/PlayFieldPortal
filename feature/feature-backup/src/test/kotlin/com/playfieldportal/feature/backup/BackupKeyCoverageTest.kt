@@ -41,6 +41,7 @@ class BackupKeyCoverageTest {
             "display_solid_unfocused_icons",
             "display_text_shadow",
             "pref_animated_icons",
+            "pref_icon1_video_sound",
             "pref_image_motion",
             "pref_icon_display_mode",
             "pref_icon_display_mode_by_platform",

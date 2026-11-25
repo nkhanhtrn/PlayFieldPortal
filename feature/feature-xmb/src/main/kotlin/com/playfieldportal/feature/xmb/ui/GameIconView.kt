@@ -153,8 +153,11 @@ fun GameIcon(
                         if (video != null) {
                             // ICON1: the snap plays over the static icon, clipped to the same
                             // PSP tile shape; the static ICON0 stays under it as the poster.
+                            // sound follows the Video Snap Sound preference the publish stamped
+                            // in (in-slot audio + the ambience hold that comes with it).
                             Icon1VideoOverlay(
                                 videoUri = video.uri,
+                                sound = video.sound,
                                 modifier = Modifier.fillMaxSize().clip(PspShape),
                             )
                         }

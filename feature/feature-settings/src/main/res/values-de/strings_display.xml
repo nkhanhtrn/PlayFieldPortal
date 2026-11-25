@@ -320,6 +320,8 @@
     <string name="setd_animated_icons_sublabel">Den Videoclip eines Spiels in seinem Symbol abspielen, wenn du darauf verweilst (Modus „Eigenes Symbol“; bei niedrigem Akku übersprungen)</string>
     <string name="setd_snap_delay">Videoclip-Verzögerung</string>
     <string name="setd_snap_delay_sublabel">%1$s auf einem Spiel verweilen, bevor sein Videoclip startet (1–5 Sekunden) – längere Verzögerungen vermeiden Aufploppen beim Stöbern</string>
+    <string name="setd_video_snap_sound">Videoclip-Ton</string>
+    <string name="setd_video_snap_sound_sublabel">Gibt den Ton des Videoclips im Symbol wieder (die Hintergrundmusik weicht, während er läuft)</string>
     <string name="setd_crop_preview">Zuschnitt-Vorschau</string>
     <string name="setd_crop_preview_sublabel">Beim Zuschneiden von Artwork die fertige Kachel in der Ecke zeigen (Ⓨ schaltet sie auch im Zuschnitt-Editor um)</string>
     <string name="setd_prefer_sgdb_heroes">SteamGridDB-Heroes bevorzugen</string>

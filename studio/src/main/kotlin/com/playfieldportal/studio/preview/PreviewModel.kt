@@ -235,7 +235,8 @@ object SampleContent {
         branch("item_settings_section_$id", title, subtitle, *rows.map { (t, s) -> leaf("item_settings", t, s) }.toTypedArray())
 
     private val settings = listOf(
-        leaf("item_settings", "Android Settings", "Opens device settings"),
+        // Sections first, the device's own Settings app last — matches the launcher's
+        // SETTINGS_ROOT_ITEMS order.
         section(
             "library", "Library", "Sources, cards, artwork & hidden games",
             "Library Manager" to "ROM sources & scanning",
@@ -281,6 +282,7 @@ object SampleContent {
             "Setup Wizard" to "Guided folder & account setup",
             "Credits" to "Artwork & attributions",
         ),
+        leaf("item_settings", "Android Settings", "Opens device settings"),
     )
 
     // ── Photo (photoRootItems, a library scanned, a camera app present) ──────

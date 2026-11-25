@@ -46,7 +46,7 @@ class AppUpdateCheckerTest {
         served = ReleaseListFetch.Text(
             tags.joinToString(",", "[", "]") { tag ->
                 """{"tag_name":"$tag","draft":false,"prerelease":false,"published_at":"2026-11-01T00:00:00Z",
-                    "html_url":"https://github.com/JohnnyCollado/PlayFieldPortal/releases/tag/$tag",
+                    "html_url":"https://github.com/nkhanhtrn/PlayFieldPortal/releases/tag/$tag",
                     "body":"## Summary\n- Improved system performance","assets":[]}"""
             },
         )

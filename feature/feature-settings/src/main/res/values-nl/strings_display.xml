@@ -302,6 +302,8 @@
     <string name="setd_animated_icons_sublabel">Speel het videofragment van een spel af in het pictogram nadat je erop blijft staan (modus Eigen pictogram; overgeslagen bij lage batterij)</string>
     <string name="setd_snap_delay">Vertraging videofragment</string>
     <string name="setd_snap_delay_sublabel">Blijf %1$s op een spel staan voordat het videofragment afspeelt (1–5 seconden) — langere vertragingen voorkomen plotselinge geluiden tijdens het bladeren</string>
+    <string name="setd_video_snap_sound">Videoclipsgeluid</string>
+    <string name="setd_video_snap_sound_sublabel">Speelt het geluid van de videoclip in het pictogram af (achtergrondmuziek wijkt terwijl hij speelt)</string>
     <string name="setd_crop_preview">Bijsnijvoorbeeld</string>
     <string name="setd_crop_preview_sublabel">Toon de uiteindelijke tegel in de hoek tijdens het bijsnijden van artwork (Ⓨ schakelt dit ook in de bijsnij-editor)</string>
     <string name="setd_prefer_sgdb_heroes">Voorkeur voor SteamGridDB-hero\'s</string>

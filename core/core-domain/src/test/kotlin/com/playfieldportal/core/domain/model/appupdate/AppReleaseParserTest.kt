@@ -8,7 +8,7 @@ import kotlin.test.assertTrue
 
 class AppReleaseParserTest {
 
-    private val base = "https://github.com/JohnnyCollado/PlayFieldPortal/releases"
+    private val base = "https://github.com/nkhanhtrn/PlayFieldPortal/releases"
 
     private fun release(
         tag: String,

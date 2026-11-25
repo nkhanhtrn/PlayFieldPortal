@@ -351,6 +351,8 @@
     <string name="setd_snap_delay">Video snap delay</string>
     <!-- %1$s is a duration such as 1.5s. -->
     <string name="setd_snap_delay_sublabel">Rest on a game %1$s before its video snap plays (1–5 seconds) — higher delays avoid pops while browsing</string>
+    <string name="setd_video_snap_sound">Video snap sound</string>
+    <string name="setd_video_snap_sound_sublabel">Play the icon video snap\'s audio — the background music steps aside while it plays</string>
     <string name="setd_crop_preview">Crop preview</string>
     <string name="setd_crop_preview_sublabel">Show the finished tile in the corner while cropping artwork (Ⓨ toggles it inside the crop editor too)</string>
     <string name="setd_prefer_sgdb_heroes">Prefer SteamGridDB heroes</string>

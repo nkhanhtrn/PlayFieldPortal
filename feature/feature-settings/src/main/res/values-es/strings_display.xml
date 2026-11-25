@@ -321,6 +321,8 @@
     <string name="setd_animated_icons_sublabel">Reproduce el video corto de un juego en su icono tras detenerte en él (modo Icono personalizado; se omite con batería baja)</string>
     <string name="setd_snap_delay">Retardo del video corto</string>
     <string name="setd_snap_delay_sublabel">Detente en un juego %1$s antes de que se reproduzca su video corto (1–5 segundos): los retardos mayores evitan saltos al navegar</string>
+    <string name="setd_video_snap_sound">Sonido del videoclip</string>
+    <string name="setd_video_snap_sound_sublabel">Reproduce el audio del videoclip del icono (la música de fondo se aparta mientras suena)</string>
     <string name="setd_crop_preview">Vista previa del recorte</string>
     <string name="setd_crop_preview_sublabel">Muestra el mosaico final en la esquina mientras recortas ilustraciones (Ⓨ también lo activa dentro del editor de recorte)</string>
     <string name="setd_prefer_sgdb_heroes">Preferir heroes de SteamGridDB</string>

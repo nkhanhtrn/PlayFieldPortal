@@ -353,6 +353,8 @@
     <string name="setd_snap_delay">Кашњење видео исечка</string>
     <!-- %1$s is a duration such as 1.5s. -->
     <string name="setd_snap_delay_sublabel">Задржите се на игри %1$s пре него што се њен видео исечак репродукује (1–5 секунди) — дуже кашњење спречава искакање током прегледања</string>
+    <string name="setd_video_snap_sound">Звук видео исечка</string>
+    <string name="setd_video_snap_sound_sublabel">Пушта звук видео исечка у икони (позадинска музика уступа док траје)</string>
     <string name="setd_crop_preview">Преглед исецања</string>
     <string name="setd_crop_preview_sublabel">Приказује готову плочицу у углу током исецања графике (Ⓨ га укључује/искључује и у уређивачу исецања)</string>
     <string name="setd_prefer_sgdb_heroes">Предност SteamGridDB херој сликама</string>

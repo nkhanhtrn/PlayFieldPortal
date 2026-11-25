@@ -804,6 +804,7 @@ open class BackupManager @Inject constructor(
             ThemePrefKeys.SOLID_UNFOCUSED_ICONS,
             booleanPreferencesKey("display_text_shadow"),
             booleanPreferencesKey("pref_animated_icons"),
+            booleanPreferencesKey("pref_icon1_video_sound"),
             // Launch behaviour
             booleanPreferencesKey("pref_direct_game_launch"),
             // Achievements + artwork behaviour

@@ -312,6 +312,8 @@
     <string name="setd_animated_icons_sublabel">Reprodueix el vídeo d\'un joc a la seva icona quan t\'hi atures (mode Icona personalitzada; s\'omet amb bateria baixa)</string>
     <string name="setd_snap_delay">Retard del vídeo</string>
     <string name="setd_snap_delay_sublabel">Atura\'t %1$s sobre un joc perquè se\'n reprodueixi el vídeo (1–5 segons) — els retards més llargs eviten salts mentre navegues</string>
+    <string name="setd_video_snap_sound">So del videoclip</string>
+    <string name="setd_video_snap_sound_sublabel">Reprodueix l\'àudio del videoclip a la icona (la música de fons s\'aparta mentre sona)</string>
     <string name="setd_crop_preview">Previsualització del retall</string>
     <string name="setd_crop_preview_sublabel">Mostra el mosaic final a la cantonada mentre retalles imatges (Ⓨ també l\'activa o desactiva dins de l\'editor de retall)</string>
     <string name="setd_prefer_sgdb_heroes">Prefereix les capçaleres de SteamGridDB</string>

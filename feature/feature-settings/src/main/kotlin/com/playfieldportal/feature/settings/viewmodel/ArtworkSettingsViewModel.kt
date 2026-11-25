@@ -72,6 +72,9 @@ data class ArtworkSettingsUiState(
     // How long the cursor must rest on a game before its video snap plays (Video Snap Delay,
     // under the Animated Icons toggle). Seconds, clamped 1..5; default 1.5 matches the PSP.
     val icon1LingerDelaySeconds: Float = 1.5f,
+    // Video Snap Sound: whether the focused icon's snap plays its audio track (and holds the
+    // background music down) instead of staying silent. Off by default, like the PSP's ICON1.
+    val icon1VideoSound: Boolean = false,
     val downloadHeroes: Boolean = true,
     val downloadLogos: Boolean = true,
     val downloadManuals: Boolean = true,
@@ -125,6 +128,11 @@ class ArtworkSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             iconDisplayPreferences.lingerDelaySecondsFlow.collect { seconds ->
                 _extra.update { it.copy(icon1LingerDelaySeconds = seconds) }
+            }
+        }
+        viewModelScope.launch {
+            iconDisplayPreferences.icon1VideoSoundFlow.collect { sound ->
+                _extra.update { it.copy(icon1VideoSound = sound) }
             }
         }
         // The Artwork Studio's crop editor writes this same preference with its Ⓨ toggle, so the
@@ -476,6 +484,11 @@ class ArtworkSettingsViewModel @Inject constructor(
         val clamped = seconds.coerceIn(1f, 5f)
         _extra.update { it.copy(icon1LingerDelaySeconds = clamped) }
         viewModelScope.launch { iconDisplayPreferences.setLingerDelaySeconds(clamped) }
+    }
+
+    fun setIcon1VideoSound(enabled: Boolean) {
+        _extra.update { it.copy(icon1VideoSound = enabled) }
+        viewModelScope.launch { iconDisplayPreferences.setIcon1VideoSound(enabled) }
     }
 
     fun setDownloadHeroes(enabled: Boolean) {

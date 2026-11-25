@@ -8,9 +8,11 @@ import com.playfieldportal.core.domain.model.IconDisplayMode
 /**
  * The ICON1 video snap of the currently focused game, non-null only while the XMBViewModel's
  * linger gate + battery/thermal gates all pass. [GameIcon] plays it in-slot for the matching
- * game; everything else ignores it.
+ * game; everything else ignores it. [sound] carries the Video Snap Sound preference (Artwork ▸
+ * Art Preferences) at publish time: the overlay plays the clip's audio and holds the background
+ * music down while it is up, instead of decoding silent video like the PSP did.
  */
-data class FocusedGameVideo(val gameId: Long, val uri: String)
+data class FocusedGameVideo(val gameId: Long, val uri: String, val sound: Boolean = false)
 
 // Provided by XMBShell alongside LocalXmbIcons so the deeply nested tile composables
 // (main list, drill flyout game column) never need the values plumbed through their params.
