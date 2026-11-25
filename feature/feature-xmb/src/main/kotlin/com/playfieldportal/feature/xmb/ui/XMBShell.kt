@@ -700,6 +700,16 @@ fun XMBShell(
         // this override feeds.
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val baseDensity = LocalDensity.current
+            // 4:3 auto-detection: a near-square landscape screen (aspect <= 1.45, e.g. the RG Slide's
+            // 731 × 549 dp) selects the bigger row/logo profile for the cross — width-poor,
+            // height-rich screens leave the 16:9 canvas scale pinned at 1.0, so the geometry itself
+            // has to grow. See XmbDisplayProfile for the master switch.
+            val xmbRowProfile = remember(maxWidth, maxHeight) {
+                if (XmbDisplayProfile.ENABLED && XmbDisplayProfile.isFourThirds(maxWidth.value, maxHeight.value))
+                    XmbRowProfile.FOUR_THIRDS
+                else
+                    XmbRowProfile.STANDARD
+            }
             // Fit to the SMALLER of the two axis ratios so a near-square / foldable screen (e.g. the
             // Z Fold inner display, ~1:1) is bounded by width and doesn't balloon to the height-based
             // scale — which would over-magnify everything and truncate the item labels. On a 16:9-ish
@@ -722,6 +732,7 @@ fun XMBShell(
                     barTopFraction = uiState.layoutSpec.barTopFraction,
                 )
             CompositionLocalProvider(
+                LocalXmbRowProfile provides xmbRowProfile,
                 LocalDensity provides Density(baseDensity.density * uiScale * layoutAdjust.scale, baseDensity.fontScale),
             ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -917,6 +928,9 @@ fun XMBShell(
                 // maxHeight — that one is taken before the LocalDensity override above, so its dp
                 // values mean a different number of pixels inside this subtree.
                 BoxWithConstraints(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterEnd) {
+                    // The row/logo geometry for this screen's aspect — 4:3 grows the logo box the
+                    // same ratio it grows the rows (see XmbDisplayProfile).
+                    val rowProfile = LocalXmbRowProfile.current
                     // At the XMB root the logo sits on the screen's centre line, as the PSP does.
                     // Inside the Games drill flyout it belongs to the ACTIVE GAME, so it centres on
                     // that card's row instead — otherwise the logo drifts away from the game it
@@ -929,11 +943,15 @@ fun XMBShell(
                     val logoCenterOffset: Dp = if (uiState.drillTitle != null) {
                         val contentTop = uiState.layoutSpec.contentTopPaddingDp.dp
                         val crossHeight = maxHeight - contentTop
-                        val anchorTop = crossHeight * layoutAdjust.barTopFraction + CAT_BAR_HEIGHT
-                        val rowCenter = contentTop + anchorTop + ROW_HEIGHT / 2
-                        // The logo is 38% of the height and centred, so keep its centre within
-                        // [19%, 81%] — a low crossbar must not push it off the bottom edge.
-                        rowCenter.coerceIn(maxHeight * 0.19f, maxHeight * 0.81f) - maxHeight / 2
+                        val barTopFractionBias =
+                            if (rowProfile === XmbRowProfile.FOUR_THIRDS) XmbDisplayProfile.ROOT_BAR_TOP_BIAS else 0f
+                        val anchorTop = crossHeight * (layoutAdjust.barTopFraction + barTopFractionBias) + CAT_BAR_HEIGHT
+                        val rowCenter = contentTop + anchorTop + rowProfile.rowHeight / 2
+                        // The logo's height is a fraction of the screen and it is centred, so keep
+                        // its centre within [half-height, 1 - half-height] — a low crossbar must not
+                        // push it off the bottom edge.
+                        val logoHalf = rowProfile.logoHeightFraction / 2
+                        rowCenter.coerceIn(maxHeight * logoHalf, maxHeight * (1f - logoHalf)) - maxHeight / 2
                     } else {
                         0.dp
                     }
@@ -942,8 +960,8 @@ fun XMBShell(
                         contentDescription = null,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
-                            .fillMaxWidth(0.30f)
-                            .fillMaxHeight(0.38f)
+                            .fillMaxWidth(rowProfile.logoWidthFraction)
+                            .fillMaxHeight(rowProfile.logoHeightFraction)
                             .offset(y = logoCenterOffset)
                             .padding(end = 44.dp)
                             .alpha(pic0Alpha),
@@ -1019,8 +1037,13 @@ fun XMBShell(
                     // themes whose wallpaper draws its own cross band may override it.
                     val layoutSpec = uiState.layoutSpec
                     // Vertical crossbar position and horizontal shift come from the resolved layout
-                    // adjustment (which itself defaults to the theme's bar line when untuned).
-                    val barTop = maxHeight * layoutAdjust.barTopFraction
+                    // adjustment (which itself defaults to the theme's bar line when untuned). On a
+                    // 4:3 screen the tall-layout bias lands the selected row's centre on the
+                    // midline (see XmbDisplayProfile.ROOT_BAR_TOP_BIAS) — the same bias the PIC0
+                    // logo anchor below adds, so the two lines cannot drift apart.
+                    val barTopFractionBias =
+                        if (LocalXmbRowProfile.current === XmbRowProfile.FOUR_THIRDS) XmbDisplayProfile.ROOT_BAR_TOP_BIAS else 0f
+                    val barTop = maxHeight * (layoutAdjust.barTopFraction + barTopFractionBias)
                     // Caticon centre minus the leading-icon inset ⇒ column shift that lands every
                     // item's icon centre on the caticon's vertical line (shared so the column offset
                     // and the row's scale pivot stay in lock-step).

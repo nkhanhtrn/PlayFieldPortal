@@ -128,9 +128,11 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 
-// Game icons use the authentic PSP ICON0 ratio 144:80 (= 1.8), scaled for the list.
-private val GAME_ICON_WIDTH = 126.dp
-private val GAME_ICON_HEIGHT = 70.dp
+// Game icons use the authentic PSP ICON0 ratio 144:80 (= 1.8), scaled for the list. These are the
+// 16:9 values; a 4:3 screen reads them (grown 4/3) through [LocalXmbRowProfile] instead — the
+// constants stay the single source for [XmbRowProfile.STANDARD], so the two can never drift.
+internal val GAME_ICON_WIDTH = 126.dp
+internal val GAME_ICON_HEIGHT = 70.dp
 
 // Every row is exactly this tall so the list viewport can be sized to a whole number of rows —
 // this is what lets us "hard stop" at a row boundary and never render a partially-clipped row.
@@ -141,10 +143,10 @@ internal val ROW_HEIGHT = 88.dp
 // The inserted UMD, focused and read: ICON0's native 144 × 80, read as dp — a step up from a game
 // row's 126 × 70 icon. The PSP's own scale (three caticons wide, 216 dp here) read far too big on a
 // handheld (device feedback, 2026-10-01). Its row grows to hold it, with the same breathing room
-// above and below a normal row's icon has.
-private val UMD_ICON_WIDTH = 144.dp
-private val UMD_ICON_HEIGHT = 80.dp
-private val UMD_ROW_HEIGHT = UMD_ICON_HEIGHT + 16.dp
+// above and below a normal row's icon has. 16:9 values; 4:3 grows them via [LocalXmbRowProfile].
+internal val UMD_ICON_WIDTH = 144.dp
+internal val UMD_ICON_HEIGHT = 80.dp
+internal val UMD_ROW_HEIGHT = UMD_ICON_HEIGHT + 16.dp
 
 // The selected row's grow, pivoted on the icon line (see XmbVerticalListRow).
 private const val SELECTED_ROW_SCALE = 1.06f
@@ -158,12 +160,13 @@ private val ClipAllButLeft = androidx.compose.foundation.shape.GenericShape { si
 
 // Gap between a wide artwork tile and its title. Small-icon rows get this spacing for free from
 // their 58dp icon box; the 126dp artwork tiles have none, so the text butts against the art.
-private val ARTWORK_TEXT_GAP = 16.dp
+// 16:9 value; 4:3 grows it via [LocalXmbRowProfile].
+internal val ARTWORK_TEXT_GAP = 16.dp
 
 // The tap target is shorter than the full row so there are inert gaps between rows, and it wraps
 // the content width so the empty space to the right of the text isn't clickable — both keep stray
-// touches from selecting/launching items.
-private val TAP_TARGET_HEIGHT = 72.dp
+// touches from selecting/launching items. 16:9 value; 4:3 grows it via [LocalXmbRowProfile].
+internal val TAP_TARGET_HEIGHT = 72.dp
 
 // Fixed-width slot every leading icon is centred in, so an icon's horizontal centre is independent
 // of its own size — icons can grow without breaking the caticon alignment. Sized from the shared
@@ -351,6 +354,8 @@ private fun XmbGameColumn(
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxSize().clipToBounds()) {
+        // The row geometry for THIS screen's aspect: 4:3 grows the game cards (see XmbDisplayProfile).
+        val rowProfile = LocalXmbRowProfile.current
         // The same animated position and snap rules as XMBItemList: the selected index in rows, on the
         // shared step spring, created at its target so first composition and resume never glide.
         val inputs = StepInputs(
@@ -360,7 +365,7 @@ private fun XmbGameColumn(
             columnKey = columnKey,
             moving = LocalXmbRowDecor.current.movingLabel != null,
         )
-        val position = remember { ItemListPosition(inputs.target) }
+        val position = remember(rowProfile) { ItemListPosition(inputs.target, settleRows = 0.1f / rowProfile.rowHeight.value) }
         // Decided here, in the frame the inputs change, so a snap is already drawn by that frame.
         position.accept(inputs)
         LaunchedEffect(position.epoch) { position.run() }
@@ -370,8 +375,8 @@ private fun XmbGameColumn(
         // each way so the next/previous card is always already composed before it scrolls into view).
         // It follows p, not the target, so rows still in transit stay composed. Recomposes only when
         // the set of rows changes, not on every animated frame.
-        val rowsAbove = (belowTopY.value / ROW_HEIGHT.value).toInt() + 2
-        val rowsBelow = ((maxHeight.value - belowTopY.value) / ROW_HEIGHT.value).toInt() + 2
+        val rowsAbove = (belowTopY.value / rowProfile.rowHeight.value).toInt() + 2
+        val rowsBelow = ((maxHeight.value - belowTopY.value) / rowProfile.rowHeight.value).toInt() + 2
         val lastIndex = items.lastIndex
         val window by remember(items.size, rowsAbove, rowsBelow) {
             derivedStateOf {
@@ -398,8 +403,8 @@ private fun XmbGameColumn(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .fillMaxWidth()
-                        .height(ROW_HEIGHT)
-                        .offset { IntOffset(0, (belowTopY + ROW_HEIGHT * (i - position.read())).roundToPx()) }
+                        .height(rowProfile.rowHeight)
+                        .offset { IntOffset(0, (belowTopY + rowProfile.rowHeight * (i - position.read())).roundToPx()) }
                         .testTag("xmbRow:${item.id}"),
                 )
             }
@@ -536,29 +541,31 @@ fun XMBItemList(
     // position equals the target exactly, so there is nothing to drift, and it starts at its target, so
     // first composition and resume never glide.
     BoxWithConstraints(modifier = modifier.fillMaxWidth().fillMaxHeight().clip(ClipAllButLeft)) {
+        // The row geometry for THIS screen's aspect: 4:3 grows the rows (see XmbDisplayProfile).
+        val rowProfile = LocalXmbRowProfile.current
         // The focused UMD's row grows once its disc is read, as the PSP's does, pushing the rows
         // under it down rather than covering them. Same read clock as the row's own swap.
         val umdRead = rememberUmdRead(umdReadKey(items.getOrNull(selectedIndex), columnIndex = 0))
         val umdRowHeight by androidx.compose.animation.core.animateDpAsState(
-            targetValue = if (umdRead) UMD_ROW_HEIGHT else ROW_HEIGHT,
+            targetValue = if (umdRead) rowProfile.umdRowHeight else rowProfile.rowHeight,
             animationSpec = tween(200),
             label = "umdRowHeight",
         )
         // Keep whole rows only below the anchor — the active row plus however many whole rows remain
         // in the space beneath it — so nothing rests as a half-height sliver at the bottom edge (on any
         // screen size). A row still in transit past the last whole slot is cut at that slot's line.
-        val rowsBelow = ((maxHeight.value - belowTopY.value) / ROW_HEIGHT.value).toInt()
+        val rowsBelow = ((maxHeight.value - belowTopY.value) / rowProfile.rowHeight.value).toInt()
             .coerceAtLeast(1)
 
         // The anchors in whole px, rounded the way the old Column and half-row window rounded them, so
         // at rest every row lands on the same pixel as before (see itemRowTopPx).
         val density = LocalDensity.current
-        val rowPx = with(density) { ROW_HEIGHT.roundToPx() }
+        val rowPx = with(density) { rowProfile.rowHeight.roundToPx() }
         val belowTopPx = with(density) { belowTopY.roundToPx() }
-        val winPx = with(density) { (ROW_HEIGHT / 2).roundToPx() }
+        val winPx = with(density) { (rowProfile.rowHeight / 2).roundToPx() }
         // Rise distance is theme-tunable: PSP-style wallpapers want the previous item fully clear of
         // the caticon hexagon before it dissolves.
-        val winTopPx = with(density) { (barTopY - ROW_HEIGHT * previousRiseRows).roundToPx() }
+        val winTopPx = with(density) { (barTopY - rowProfile.rowHeight * previousRiseRows).roundToPx() }
         // The UMD's growth belongs to the UMD row, so it keeps pushing the rows after it down while it
         // shrinks back after the cursor leaves it, instead of snapping with the selection.
         val umdIndex = remember(items) { items.indexOfFirst { it.type == XMBItemType.UMD_SLOT } }
@@ -572,7 +579,7 @@ fun XMBItemList(
             moving = LocalXmbRowDecor.current.movingLabel != null,
             landingToken = landingToken,
         )
-        val position = remember { ItemListPosition(inputs.target, constantSpeed = true) }
+        val position = remember(rowProfile) { ItemListPosition(inputs.target, constantSpeed = true, settleRows = 0.1f / rowProfile.rowHeight.value) }
         // Decided here, in the frame the inputs change, so a snap is already drawn by that frame.
         position.accept(inputs, listMotion)
         LaunchedEffect(position.epoch) { position.run() }
@@ -609,7 +616,7 @@ fun XMBItemList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .offset { IntOffset(0, top(position.positionFor(i)).roundToInt()) }
-                        .height(if (i == umdIndex) umdRowHeight else ROW_HEIGHT)
+                        .height(if (i == umdIndex) umdRowHeight else rowProfile.rowHeight)
                         // A row above its slot shows only its part of the half-row window above the
                         // bar. requiredHeight overflow is CENTRED, so that window has always shown the
                         // row's middle half, not its bottom half: it reads as "coming in" from behind
@@ -667,8 +674,8 @@ fun XMBItemList(
  * [constantSpeed] (the main XMB column) glides at [XmbGlide]'s one speed instead of the spring;
  * the drill flyout's game column keeps the spring.
  */
-private class ItemListPosition(initial: Int, private val constantSpeed: Boolean = false) {
-    private val animatable = Animatable(initial.toFloat(), Float.VectorConverter, STEP_SETTLE_ROWS)
+private class ItemListPosition(initial: Int, private val constantSpeed: Boolean = false, private val settleRows: Float = STEP_SETTLE_ROWS) {
+    private val animatable = Animatable(initial.toFloat(), Float.VectorConverter, settleRows)
 
     // Where a snap has landed but the animatable has not been told yet; NaN when there is none.
     private var held by mutableFloatStateOf(Float.NaN)
@@ -759,7 +766,7 @@ private class ItemListPosition(initial: Int, private val constantSpeed: Boolean 
                 // Retargeted mid-glide (a held run), it carries on from where it is at the same speed.
                 animatable.animateTo(target, tween(glideDurationMs(animatable.value, target), easing = LinearEasing))
             } else {
-                animatable.animateTo(target, XmbStepSpring.spec(STEP_SETTLE_ROWS))
+                animatable.animateTo(target, XmbStepSpring.spec(settleRows))
             }
         }
     }
@@ -774,7 +781,9 @@ private class ItemListPosition(initial: Int, private val constantSpeed: Boolean 
     }
 }
 
-// Settle distance in rows: the category bar's 0.1 dp, so the tail does not visibly snap.
+// Settle distance in rows: the category bar's 0.1 dp, so the tail does not visibly snap. The 16:9
+// value — the composition sites derive it from the live row height so taller (4:3) rows settle the
+// same 0.1 dp.
 private val STEP_SETTLE_ROWS = 0.1f / ROW_HEIGHT.value
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -800,6 +809,8 @@ private fun XmbVerticalListRow(
     iconAnimatingAllowed: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
+    // The row geometry for THIS screen's aspect: 4:3 grows the art tiles (see XmbDisplayProfile).
+    val rowProfile = LocalXmbRowProfile.current
     // Strong size delta between the locked selection and the rows scrolling past it — the PSP
     // "the cursor stays, the list breathes" feel.
     val scale by animateFloatAsState(
@@ -851,7 +862,7 @@ private fun XmbVerticalListRow(
                 // trailing area stays inert), but cap at the available width so long titles still
                 // truncate instead of overflowing.
                 .weight(1f, fill = false)
-                .height(TAP_TARGET_HEIGHT)
+                .height(rowProfile.tapTargetHeight)
                 // indication = null suppresses the Android ripple/highlight on tap & long-press —
                 // the XMB communicates focus through its own cursor (scale + white label), and the
                 // grey ripple rectangle broke the PSP look.
@@ -889,9 +900,10 @@ private fun XmbVerticalListRow(
                         .arrangeDecoration(
                             marked = marked,
                             accent = LocalPFPColors.current.accentColor,
+                            gap = rowProfile.artworkTextGap,
                         )
                         // A card or glyph is a fixed square in the slot: framed, or glowing, from here.
-                        .moveIconOutline(moving && !liftedFrameSitsOnTheTile(item))
+                        .moveIconOutline(moving && !liftedFrameSitsOnTheTile(item), gap = rowProfile.artworkTextGap)
                         .focusGlow(
                             active = isSelected && !moving && !liftedFrameSitsOnTheTile(item),
                             key = item.id,
@@ -1063,11 +1075,11 @@ private fun Modifier.liftedFrame(): Modifier = drawWithContent {
  * A card or glyph row being moved: the same frame, round the square icon centred in the row's icon
  * slot. Only the icon is framed; the name is not part of what is lifted.
  */
-private fun Modifier.moveIconOutline(moving: Boolean): Modifier = if (!moving) this else drawWithContent {
+private fun Modifier.moveIconOutline(moving: Boolean, gap: Dp = ARTWORK_TEXT_GAP): Modifier = if (!moving) this else drawWithContent {
     drawContent()
     drawMoveOutline(
         frame = moveIconFrame(
-            leadingIconBounds(size.width, size.height, ARTWORK_TEXT_GAP.toPx()),
+            leadingIconBounds(size.width, size.height, gap.toPx()),
             pad = LIFTED_FRAME_PAD.toPx(),
         ),
         corner = LIFTED_FRAME_CORNER,
@@ -1081,9 +1093,10 @@ private fun Modifier.moveIconOutline(moving: Boolean): Modifier = if (!moving) t
 private fun Modifier.arrangeDecoration(
     marked: Boolean,
     accent: Color,
+    gap: Dp = ARTWORK_TEXT_GAP,
 ): Modifier = if (!marked) this else drawWithContent {
     drawContent()
-    val left = leadingIconBounds(size.width, size.height, ARTWORK_TEXT_GAP.toPx()).left
+    val left = leadingIconBounds(size.width, size.height, gap.toPx()).left
     if (marked) {
         val radius = 10.dp.toPx()
         val center = Offset(left + 2.dp.toPx(), 2.dp.toPx())
@@ -1113,6 +1126,8 @@ private fun XmbItemLeadingIcon(
     // A focused UMD slot whose read has finished — see rememberUmdRead.
     umdShowsGame: Boolean = false,
 ) {
+    // The row geometry for THIS screen's aspect: 4:3 grows the art tiles (see XmbDisplayProfile).
+    val rowProfile = LocalXmbRowProfile.current
     // Material glyph rows follow the theme's unified icon color, matching the tinted
     // silhouette art (PortalIcon) — row alpha handles the unselected dimming.
     val iconTint = LocalPFPColors.current.iconColor
@@ -1445,15 +1460,15 @@ private fun XmbItemLeadingIcon(
         item.type == XMBItemType.UMD_SLOT -> {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.width(LEADING_ICON_SLOT).height(UMD_ICON_HEIGHT),
+                modifier = Modifier.width(LEADING_ICON_SLOT).height(rowProfile.umdIconHeight),
             ) {
                 GameIcon(
                     item = item,
                     modifier = Modifier
-                        .requiredSize(width = UMD_ICON_WIDTH, height = UMD_ICON_HEIGHT)
+                        .requiredSize(width = rowProfile.umdIconWidth, height = rowProfile.umdIconHeight)
                         // Divided back out of the row's selected scale, which grows the icon about
                         // that same line, so the right edge lands on the caticon's once scaled.
-                        .offset(x = (XmbLayoutSpec.DEFAULT.categoryIconSelectedDp.dp / SELECTED_ROW_SCALE - UMD_ICON_WIDTH) / 2),
+                        .offset(x = (XmbLayoutSpec.DEFAULT.categoryIconSelectedDp.dp / SELECTED_ROW_SCALE - rowProfile.umdIconWidth) / 2),
                 )
             }
         }
@@ -1561,9 +1576,9 @@ private fun XmbItemLeadingIcon(
             // Full 144:80 landscape tile (ratio 1.8) — the authentic PSP ICON0 rectangle.
             GameIcon(
                 item = item,
-                modifier = Modifier.size(width = GAME_ICON_WIDTH, height = GAME_ICON_HEIGHT),
+                modifier = Modifier.size(width = rowProfile.gameIconWidth, height = rowProfile.gameIconHeight),
             )
-            Spacer(modifier = Modifier.width(ARTWORK_TEXT_GAP))
+            Spacer(modifier = Modifier.width(rowProfile.artworkTextGap))
         }
         item.isAndroidApp && item.iconUri != null -> {
             // Apps the user has given artwork render the same 144:80 landscape tile as games, so
@@ -1571,9 +1586,9 @@ private fun XmbItemLeadingIcon(
             // content_type ANDROID_APP, so artwork never makes them appear in All Games.
             GameIcon(
                 item = item,
-                modifier = Modifier.size(width = GAME_ICON_WIDTH, height = GAME_ICON_HEIGHT),
+                modifier = Modifier.size(width = rowProfile.gameIconWidth, height = rowProfile.gameIconHeight),
             )
-            Spacer(modifier = Modifier.width(ARTWORK_TEXT_GAP))
+            Spacer(modifier = Modifier.width(rowProfile.artworkTextGap))
         }
         item.isAndroidApp && item.packageName != null -> {
             Box(

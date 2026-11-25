@@ -10,6 +10,15 @@ All notable changes to Play Field Portal are documented here. This project follo
   snap can now play its audio instead of decoding silently — the background music steps aside
   for as long as the snap runs. Off by default, like the PSP's own silent ICON1, and travels with
   backups.
+- **A 4:3 layout for near-square screens (auto-detected).** On a 4:3 screen (e.g. the RG Slide's
+  731 × 549 dp canvas) the XMB grows its game art to the screen's own ratio: one 168 × 112 box
+  for the cover, the video snap and the PIC0 logo, rows on the design's own breathing rhythm, and
+  the crossbar biased so the selected row centres on the midline. 16:9 screens render exactly as
+  before; every 4:3 change sits behind `XmbDisplayProfile.ENABLED` (one flag, plus one
+  `XmbRowProfile` data class to extend).
+- **Start+Select opens the App Drawer from the home screen.** Either key alone keeps its own
+  meaning (options panel / category menu), but pressed together within the chord window they open
+  the drawer — each solo is held back ~200 ms so a chord never flickers a panel open first.
 
 ### Changed
 - **In-app updates now come from this repository's own releases.** System Update checks
@@ -20,6 +29,9 @@ All notable changes to Play Field Portal are documented here. This project follo
 - **Android Settings now sits at the bottom of the Settings list.** The six PFP sections come
   first and the device's own Settings app is the last row (and the last icon in a section's
   drill flyout), where a system escape hatch reads.
+- **Back no longer opens the App Drawer at the home screen.** The drawer moved to the
+  Start+Select chord (above); Back stays Back, and the touch left-edge-swipe no longer opens the
+  drawer either — the on-screen drawer button remains the touch way in.
 
 ## [1.3.6] - 2026-11-24
 

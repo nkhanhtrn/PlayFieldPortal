@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -70,8 +71,10 @@ val LocalIconFrame = androidx.compose.runtime.compositionLocalOf<Modifier> { Mod
 fun GameIcon(
     item: XMBItem,
     modifier: Modifier = Modifier,
-    // Drawing height for the natural-aspect modes; the game picker's shelf grid draws smaller.
-    naturalArtHeight: Dp = NATURAL_ART_HEIGHT,
+    // Drawing height for the natural-aspect modes, from the live screen profile: 4:3 screens
+    // grow it with the rows (see XmbDisplayProfile); the game picker's shelf grid draws smaller
+    // and passes its own.
+    naturalArtHeight: Dp = LocalXmbRowProfile.current.naturalArtHeight,
 ) {
     val title = item.titleUi.asString()
     when {
@@ -143,7 +146,11 @@ fun GameIcon(
                 else -> {
                     val video = LocalFocusedGameVideo.current
                         ?.takeIf { it.gameId == item.gameId && resolved.mode == IconDisplayMode.ICON0 }
-                    Box(modifier = modifier) {
+                    // The snap's own budget: the same size as the tile on 16:9; on 4:3 it grows
+                    // past it (see XmbRowProfile) — centred on the slot and drawn, not clipped,
+                    // the same way the natural-aspect art overflows its slot.
+                    val videoProfile = LocalXmbRowProfile.current
+                    Box(modifier = modifier, contentAlignment = Alignment.Center) {
                         PspIcon0Icon(
                             artworkUri  = resolved.uri,
                             accentColor = item.accentColor?.let { Color(it) },
@@ -158,7 +165,12 @@ fun GameIcon(
                             Icon1VideoOverlay(
                                 videoUri = video.uri,
                                 sound = video.sound,
-                                modifier = Modifier.fillMaxSize().clip(PspShape),
+                                modifier = Modifier
+                                    .requiredSize(
+                                        width = videoProfile.videoIconWidth,
+                                        height = videoProfile.videoIconHeight,
+                                    )
+                                    .clip(PspShape),
                             )
                         }
                     }
@@ -176,7 +188,8 @@ fun GameIcon(
  * ICON0 tile it replaces. These modes get a taller budget and overflow the slot symmetrically.
  *
  * 84 dp is the practical ceiling: XMBItemList's ROW_HEIGHT is 88 dp, so anything more and the
- * tiles in adjacent rows touch.
+ * tiles in adjacent rows touch. The 16:9 budget; a 4:3 screen reads a grown one through
+ * [LocalXmbRowProfile] (see XmbDisplayProfile).
  */
 internal val NATURAL_ART_HEIGHT = 84.dp
 
