@@ -323,6 +323,8 @@
     <string name="setd_animated_icons_sublabel">Odtwarzaj klip wideo gry w jej ikonie po zatrzymaniu się na niej (tryb Własna ikona; pomijane przy niskim poziomie baterii)</string>
     <string name="setd_snap_delay">Opóźnienie klipu wideo</string>
     <string name="setd_snap_delay_sublabel">Zatrzymaj się na grze przez %1$s, zanim odtworzy się jej klip (1–5 sekund) — dłuższe opóźnienie zapobiega mignięciom podczas przeglądania</string>
+    <string name="setd_video_snap_sound">Dźwięk klipu wideo</string>
+    <string name="setd_video_snap_sound_sublabel">Odtwarza dźwięk klipu wideo w ikonie (muzyka w tle ustępuje podczas odtwarzania)</string>
     <string name="setd_crop_preview">Podgląd przycinania</string>
     <string name="setd_crop_preview_sublabel">Pokazuj gotowy kafelek w rogu podczas przycinania grafiki (Ⓨ przełącza go także w edytorze przycinania)</string>
     <string name="setd_prefer_sgdb_heroes">Preferuj banery SteamGridDB</string>

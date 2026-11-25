@@ -5,6 +5,22 @@ All notable changes to Play Field Portal are documented here. This project follo
 
 ## [Unreleased]
 
+### Added
+- **Video snap sound (Settings ▸ Artwork ▸ Art Preferences).** The focused game's in-icon video
+  snap can now play its audio instead of decoding silently — the background music steps aside
+  for as long as the snap runs. Off by default, like the PSP's own silent ICON1, and travels with
+  backups.
+
+### Changed
+- **In-app updates now come from this repository's own releases.** System Update checks
+  `nkhanhtrn/PlayFieldPortal` on GitHub instead of the upstream repo, and release notes and APK
+  downloads are pinned to it; releases there are picked up automatically (tag `X.Y.Z`, assets
+  `PlayFieldPortal-X.Y.Z-full.apk` / `-lite.apk`). The emulator knowledge file still comes from
+  the upstream `emulator-kb` release, unchanged.
+- **Android Settings now sits at the bottom of the Settings list.** The six PFP sections come
+  first and the device's own Settings app is the last row (and the last icon in a section's
+  drill flyout), where a system escape hatch reads.
+
 ## [1.3.6] - 2026-11-24
 
 A hotfix for how menus and prompts sit over the screen.

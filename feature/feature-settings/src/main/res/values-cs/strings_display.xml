@@ -323,6 +323,8 @@
     <string name="setd_animated_icons_sublabel">Po chvíli na hře přehrát v její ikoně videoukázku (režim Vlastní ikona; při slabé baterii se přeskočí)</string>
     <string name="setd_snap_delay">Prodleva videoukázky</string>
     <string name="setd_snap_delay_sublabel">Zůstaňte na hře %1$s, než se přehraje její videoukázka (1–5 sekund) — delší prodleva zabrání probliknutím při procházení</string>
+    <string name="setd_video_snap_sound">Zvuk videoklipu</string>
+    <string name="setd_video_snap_sound_sublabel">Přehraje zvuk videoklipu v ikoně (hudba na pozadí ustoupí, zatímco se přehrává)</string>
     <string name="setd_crop_preview">Náhled oříznutí</string>
     <string name="setd_crop_preview_sublabel">Při ořezávání grafiky zobrazit v rohu hotovou dlaždici (v editoru oříznutí ji přepíná i Ⓨ)</string>
     <string name="setd_prefer_sgdb_heroes">Preferovat hero ze SteamGridDB</string>

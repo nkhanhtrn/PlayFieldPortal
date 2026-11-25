@@ -329,6 +329,8 @@
     <string name="setd_animated_icons_sublabel">تشغيل مقطع فيديو اللعبة داخل أيقونتها بعد التوقف عندها (وضع الأيقونة المخصصة؛ يُتخطى عند انخفاض البطارية)</string>
     <string name="setd_snap_delay">تأخير مقطع الفيديو</string>
     <string name="setd_snap_delay_sublabel">توقف عند اللعبة %1$s قبل تشغيل مقطع الفيديو (1–5 ثوانٍ) — التأخير الأطول يمنع الظهور المفاجئ أثناء التصفح</string>
+    <string name="setd_video_snap_sound">صوت مقطع الفيديو</string>
+    <string name="setd_video_snap_sound_sublabel">تشغيل صوت مقطع الفيديو في الأيقونة (تتنحى الموسيقى الخلفية أثناء التشغيل)</string>
     <string name="setd_crop_preview">معاينة القص</string>
     <string name="setd_crop_preview_sublabel">إظهار المربع النهائي في الزاوية أثناء قص الصور الفنية (Ⓨ يبدّلها داخل محرر القص أيضًا)</string>
     <string name="setd_prefer_sgdb_heroes">تفضيل الصور الرئيسية من SteamGridDB</string>

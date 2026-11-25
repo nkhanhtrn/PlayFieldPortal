@@ -81,6 +81,7 @@ class ArtworkSettingsViewModelTest {
             every { modeFlow } returns flowOf(com.playfieldportal.core.domain.model.IconDisplayMode.DEFAULT)
             every { animatedIconsFlow } returns flowOf(true)
             every { lingerDelaySecondsFlow } returns flowOf(1.5f)
+            every { icon1VideoSoundFlow } returns flowOf(false)
             every { imageMotionFlow } returns flowOf(com.playfieldportal.core.domain.model.ImageMotion.STATIC)
         }
         coEvery { artworkRepository.computeStatus() }    returns ArtworkStatus(total = 10, complete = 8, missing = 2)
@@ -303,6 +304,28 @@ class ArtworkSettingsViewModelTest {
 
         assertEquals(3.5f, viewModel.uiState.value.icon1LingerDelaySeconds)
         coVerify { iconDisplayPreferences.setLingerDelaySeconds(3.5f) }
+    }
+
+    // ── Video snap sound ──────────────────────────────────────────────────────
+
+    @Test
+    fun `video snap sound is off by default`() = runTest(testDispatcher) {
+        viewModel = activeViewModel()
+        advanceUntilIdle()
+
+        assertFalse(viewModel.uiState.value.icon1VideoSound)
+    }
+
+    @Test
+    fun `setIcon1VideoSound updates state and persists`() = runTest(testDispatcher) {
+        viewModel = activeViewModel()
+        advanceUntilIdle()
+
+        viewModel.setIcon1VideoSound(true)
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.icon1VideoSound)
+        coVerify { iconDisplayPreferences.setIcon1VideoSound(true) }
     }
 
     // ── Animated Images ────────────────────────────────────────────────────────

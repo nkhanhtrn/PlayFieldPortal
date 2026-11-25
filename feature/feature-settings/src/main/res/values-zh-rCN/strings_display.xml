@@ -317,6 +317,8 @@
     <string name="setd_animated_icons_sublabel">在游戏上停留后，在其图标中播放视频片段（自定义图标模式；电量低时跳过）</string>
     <string name="setd_snap_delay">视频片段延迟</string>
     <string name="setd_snap_delay_sublabel">在游戏上停留 %1$s 后播放其视频片段（1–5 秒）。延迟越长，浏览时越不容易突然出现</string>
+    <string name="setd_video_snap_sound">视频片段声音</string>
+    <string name="setd_video_snap_sound_sublabel">播放图标中视频片段的音频（播放期间背景音乐避让）</string>
     <string name="setd_crop_preview">裁剪预览</string>
     <string name="setd_crop_preview_sublabel">裁剪图片时在角落显示最终图块（在裁剪编辑器中也可按 Ⓨ 切换）</string>
     <string name="setd_prefer_sgdb_heroes">优先使用 SteamGridDB 主视觉图</string>

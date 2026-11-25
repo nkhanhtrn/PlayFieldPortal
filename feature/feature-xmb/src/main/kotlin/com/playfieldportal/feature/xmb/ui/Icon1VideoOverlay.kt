@@ -19,6 +19,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.exoplayer.ExoPlayer
+import com.playfieldportal.core.ui.sound.AmbienceController
 
 /**
  * ICON1.PMF revival — plays a game's video snap inside the 144:80 icon slot, over the static
@@ -27,7 +28,9 @@ import androidx.media3.exoplayer.ExoPlayer
  * Battery discipline (the linger gate, battery/thermal/saver checks, and the "one focused game
  * only" rule live in XMBViewModel — by the time this composes, playback has been approved):
  *  • ONE player per overlay, and only one overlay ever exists (the focused game's).
- *  • Audio is disabled at the track level — the audio track is never selected, never decoded.
+ *  • Audio is disabled at the track level by default — the audio track is never selected, never
+ *    decoded. With [sound] (Settings ▸ Artwork ▸ Video Snap Sound) the clip plays its audio and
+ *    holds the background music down for as long as the overlay is up.
  *  • A hard clip at [MAX_PLAY_MS] stops the decoder itself; when it ends we fade back to the
  *    static ICON0 and do NOT loop (a PMF that ran its course).
  *  • Released (not paused) the moment focus moves — DisposableEffect onDispose.
@@ -38,6 +41,10 @@ import androidx.media3.exoplayer.ExoPlayer
 @Composable
 fun Icon1VideoOverlay(
     videoUri: String,
+    // Video Snap Sound: play the clip's audio track instead of decoding video-only. Keyed into
+    // the player's remember so flipping the setting rebuilds it (a rare event; focus moves soon
+    // enough anyway).
+    sound: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -45,12 +52,18 @@ fun Icon1VideoOverlay(
     var ended by remember(videoUri) { mutableStateOf(false) }
     var videoSize by remember(videoUri) { mutableStateOf<VideoSize?>(null) }
 
-    val player = remember(videoUri) {
+    // With sound on, the snap's audio replaces the background music for as long as the overlay
+    // is composed (the same owner discipline as Game Detail's snap — scoped, never leaked).
+    HoldAmbience(AmbienceController.OWNER_ICON1_VIDEO, active = sound)
+
+    val player = remember(videoUri, sound) {
         ExoPlayer.Builder(context).build().apply {
-            trackSelectionParameters = trackSelectionParameters.buildUpon()
-                .setTrackTypeDisabled(C.TRACK_TYPE_AUDIO, true)
-                .build()
-            volume = 0f
+            if (!sound) {
+                trackSelectionParameters = trackSelectionParameters.buildUpon()
+                    .setTrackTypeDisabled(C.TRACK_TYPE_AUDIO, true)
+                    .build()
+                volume = 0f
+            }
             setMediaItem(
                 MediaItem.Builder()
                     .setUri(videoUri)

@@ -322,6 +322,9 @@ class AmbienceController @Inject constructor(
         /** Game Detail's video snap, which plays with its sound. */
         const val OWNER_GAME_VIDEO = "game_video"
 
+        /** The XMB icon slot's ICON1 video snap, while Video Snap Sound is enabled. */
+        const val OWNER_ICON1_VIDEO = "icon1_video"
+
         /** The boot sequence, built in or a clip with its own track, previews included. */
         const val OWNER_BOOT = "boot"
 

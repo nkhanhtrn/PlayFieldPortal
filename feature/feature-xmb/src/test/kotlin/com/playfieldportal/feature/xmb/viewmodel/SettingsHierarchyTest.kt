@@ -24,16 +24,16 @@ class SettingsHierarchyTest {
 
     // ── Root ─────────────────────────────────────────────────────────────────
 
-    @Test fun `root is Android Settings followed by the six sections in order`() {
+    @Test fun `root is the six sections in order followed by Android Settings`() {
         assertEquals(
             listOf(
-                "settings_android_system",
                 "settings_section_library",
                 "settings_section_emulators",
                 "settings_section_interface",
                 "settings_section_achievements",
                 "settings_section_media",
                 "settings_section_system",
+                "settings_android_system",
             ),
             XMBViewModel.SETTINGS_ROOT_ITEMS.map { it.id },
         )

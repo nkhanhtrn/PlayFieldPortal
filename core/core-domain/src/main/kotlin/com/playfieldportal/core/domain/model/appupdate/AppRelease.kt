@@ -81,8 +81,8 @@ data class AppRelease(
  */
 object AppReleaseParser {
 
-    const val RELEASES_API_URL = "https://api.github.com/repos/JohnnyCollado/PlayFieldPortal/releases?per_page=30"
-    const val RELEASES_PAGE_URL = "https://github.com/JohnnyCollado/PlayFieldPortal/releases"
+    const val RELEASES_API_URL = "https://api.github.com/repos/nkhanhtrn/PlayFieldPortal/releases?per_page=30"
+    const val RELEASES_PAGE_URL = "https://github.com/nkhanhtrn/PlayFieldPortal/releases"
     private const val DOWNLOAD_PREFIX = "$RELEASES_PAGE_URL/download/"
 
     const val MAX_SUMMARY_LINES = 8

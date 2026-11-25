@@ -24,7 +24,7 @@ import kotlin.test.assertTrue
 class AppUpdateDownloaderTest {
 
     private val apkUrl =
-        "https://github.com/JohnnyCollado/PlayFieldPortal/releases/download/1.3.4/PlayFieldPortal-1.3.4-full.apk"
+        "https://github.com/nkhanhtrn/PlayFieldPortal/releases/download/1.3.4/PlayFieldPortal-1.3.4-full.apk"
     private val dir: File = createTempDirectory("app_update_test").toFile()
     private val target get() = File(dir, "update.apk")
 

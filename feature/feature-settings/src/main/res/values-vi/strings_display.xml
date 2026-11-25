@@ -318,6 +318,8 @@
     <string name="setd_animated_icons_sublabel">Phát video snap của trò chơi trong biểu tượng khi dừng lại trên nó (chế độ Biểu tượng tùy chỉnh; bỏ qua khi pin yếu)</string>
     <string name="setd_snap_delay">Độ trễ video snap</string>
     <string name="setd_snap_delay_sublabel">Dừng trên trò chơi %1$s trước khi video snap phát (1–5 giây) — độ trễ cao hơn tránh giật khi duyệt</string>
+    <string name="setd_video_snap_sound">Âm thanh đoạn video</string>
+    <string name="setd_video_snap_sound_sublabel">Phát âm thanh của đoạn video trong biểu tượng (nhạc nền nhường chỗ khi phát)</string>
     <string name="setd_crop_preview">Xem trước khi cắt</string>
     <string name="setd_crop_preview_sublabel">Hiện ô hoàn chỉnh ở góc khi cắt ảnh minh họa (Ⓨ cũng bật/tắt nó trong trình cắt)</string>
     <string name="setd_prefer_sgdb_heroes">Ưu tiên hero từ SteamGridDB</string>

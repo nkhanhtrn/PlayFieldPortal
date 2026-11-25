@@ -321,6 +321,8 @@
     <string name="setd_animated_icons_sublabel">Reproduciraj video isječak igre u njezinoj ikoni nakon zadržavanja na njoj (način Prilagođena ikona; preskače se pri slaboj bateriji)</string>
     <string name="setd_snap_delay">Odgoda video isječka</string>
     <string name="setd_snap_delay_sublabel">Zadržite se na igri %1$s prije reprodukcije njezina video isječka (1–5 sekundi) — duže odgode sprječavaju trzaje pri pregledanju</string>
+    <string name="setd_video_snap_sound">Zvuk video isječka</string>
+    <string name="setd_video_snap_sound_sublabel">Reproducira zvuk video isječka u ikoni (pozadinska muzika se povlači dok traje)</string>
     <string name="setd_crop_preview">Pregled obrezivanja</string>
     <string name="setd_crop_preview_sublabel">Prikaži gotovu pločicu u uglu pri obrezivanju grafike (Ⓨ je uključuje/isključuje i u uređivaču obrezivanja)</string>
     <string name="setd_prefer_sgdb_heroes">Preferiraj SteamGridDB hero slike</string>

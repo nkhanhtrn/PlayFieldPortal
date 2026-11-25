@@ -300,6 +300,8 @@
     <string name="setd_animated_icons_sublabel">Spela upp ett spels videoklipp i dess ikon när du stannar på det (läget Egen ikon; hoppas över vid lågt batteri)</string>
     <string name="setd_snap_delay">Fördröjning för videoklipp</string>
     <string name="setd_snap_delay_sublabel">Stanna på ett spel i %1$s innan videoklippet spelas (1–5 sekunder) – längre fördröjning undviker ryck när du bläddrar</string>
+    <string name="setd_video_snap_sound">Videoklippets ljud</string>
+    <string name="setd_video_snap_sound_sublabel">Spelar upp videoklippets ljud i ikonen (bakgrundsmusiken står åt sidan medan det spelas)</string>
     <string name="setd_crop_preview">Förhandsgranskning vid beskärning</string>
     <string name="setd_crop_preview_sublabel">Visa den färdiga rutan i hörnet när du beskär grafik (Ⓨ växlar den även i beskärningsredigeraren)</string>
     <string name="setd_prefer_sgdb_heroes">Föredra hero-bilder från SteamGridDB</string>

@@ -47,7 +47,7 @@ import kotlin.test.assertTrue
 class SystemUpdateViewModelTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val base = "https://github.com/JohnnyCollado/PlayFieldPortal/releases"
+    private val base = "https://github.com/nkhanhtrn/PlayFieldPortal/releases"
 
     private fun release(version: String, summary: List<String> = listOf("Improved system performance"), withApk: Boolean = true) =
         AppRelease(

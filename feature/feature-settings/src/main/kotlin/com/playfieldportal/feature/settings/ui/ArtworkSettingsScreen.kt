@@ -253,6 +253,13 @@ fun ArtworkSettingsScreen(
             )
 
             SettingsToggleRow(
+                label    = stringResource(R.string.setd_video_snap_sound),
+                sublabel = stringResource(R.string.setd_video_snap_sound_sublabel),
+                checked  = state.icon1VideoSound,
+                onToggle = { viewModel.setIcon1VideoSound(it) },
+            )
+
+            SettingsToggleRow(
                 label    = stringResource(R.string.setd_crop_preview),
                 sublabel = stringResource(R.string.setd_crop_preview_sublabel),
                 checked  = state.cropPreviewEnabled,

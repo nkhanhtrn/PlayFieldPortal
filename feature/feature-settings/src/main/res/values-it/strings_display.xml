@@ -321,6 +321,8 @@
     <string name="setd_animated_icons_sublabel">Riproduci la video snap di un gioco nella sua icona dopo averlo selezionato per un po\' (modalità Icona personalizzata; saltato con batteria scarica)</string>
     <string name="setd_snap_delay">Ritardo video snap</string>
     <string name="setd_snap_delay_sublabel">Resta su un gioco per %1$s prima che parta la sua video snap (1–5 secondi): ritardi più lunghi evitano scatti mentre navighi</string>
+    <string name="setd_video_snap_sound">Audio dell\'anteprima video</string>
+    <string name="setd_video_snap_sound_sublabel">Riproduce l\'audio dell\'anteprima video nell\'icona (la musica di sottofondo si abbassa mentre suona)</string>
     <string name="setd_crop_preview">Anteprima ritaglio</string>
     <string name="setd_crop_preview_sublabel">Mostra il riquadro finito nell\'angolo mentre ritagli le immagini (Ⓨ lo attiva/disattiva anche nell\'editor di ritaglio)</string>
     <string name="setd_prefer_sgdb_heroes">Preferisci hero di SteamGridDB</string>

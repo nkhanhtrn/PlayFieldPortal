@@ -321,6 +321,8 @@
     <string name="setd_animated_icons_sublabel">Lire l\'extrait vidéo d\'un jeu dans son icône après un temps d\'arrêt dessus (mode Icône personnalisée ; ignoré si la batterie est faible)</string>
     <string name="setd_snap_delay">Délai de l\'extrait vidéo</string>
     <string name="setd_snap_delay_sublabel">Restez %1$s sur un jeu avant la lecture de son extrait vidéo (1 à 5 secondes) — un délai plus long évite les coupures pendant la navigation</string>
+    <string name="setd_video_snap_sound">Son de l\'extrait vidéo</string>
+    <string name="setd_video_snap_sound_sublabel">Lit l\'audio de l\'extrait vidéo de l\'icône (la musique d\'ambiance s\'efface pendant la lecture)</string>
     <string name="setd_crop_preview">Aperçu du recadrage</string>
     <string name="setd_crop_preview_sublabel">Afficher la tuile finale dans le coin pendant le recadrage (Ⓨ l\'active aussi dans l\'éditeur de recadrage)</string>
     <string name="setd_prefer_sgdb_heroes">Préférer les bannières SteamGridDB</string>
