@@ -348,9 +348,19 @@
     <!-- ScreenScraper status row -->
     <string name="setd_ss_status">Status</string>
     <string name="setd_ss_status_active_sublabel">Scrapen op basis van hash is actief (ingebouwd ontwikkelaarspaar)</string>
-    <string name="setd_ss_status_inactive_sublabel">ScreenScraper is niet beschikbaar in deze build — er is geen ontwikkelaarspaar meegeleverd</string>
+    <string name="setd_ss_status_inactive_sublabel">ScreenScraper staat uit — geen ontwikkelaarspaar ingesteld. Sla hieronder een paar op, via een registratie op screenscraper.fr</string>
     <string name="setd_ss_active">Actief</string>
     <string name="setd_ss_inactive">Inactief</string>
+    <string name="setd_group_ss_dev">ScreenScraper-ontwikkelaarspaar</string>
+    <string name="setd_ss_dev_id">Ontwikkelaars-ID</string>
+    <string name="setd_ss_dev_id_placeholder">devid van screenscraper.fr</string>
+    <string name="setd_ss_dev_password">Ontwikkelaarswachtwoord</string>
+    <string name="setd_ss_dev_password_placeholder">devpassword van screenscraper.fr</string>
+    <string name="setd_ss_dev_password_helper">Vereist voordat ScreenScraper iets beantwoordt — registreer op screenscraper.fr om er een te krijgen. Deze build werd zonder paar geleverd. Versleuteld op dit apparaat opgeslagen (Android Keystore).</string>
+    <string name="setd_save_dev_pair">Ontwikkelaarspaar opslaan</string>
+    <string name="setd_clear_ss_dev_pair">Ontwikkelaarspaar wissen</string>
+    <string name="setd_clear_ss_dev_pair_sublabel">ScreenScraper blijft uit tot er weer een paar is opgeslagen</string>
+    <string name="setd_secret_ss_dev_password">ScreenScraper-ontwikkelaarswachtwoord</string>
     <string name="setd_group_ss_account">ScreenScraper-account (optioneel)</string>
     <string name="setd_ss_username_saved">Gebruikersnaam (opgeslagen: %1$s)</string>
     <string name="setd_ss_username">Gebruikersnaam</string>

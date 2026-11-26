@@ -490,6 +490,7 @@
     <string name="det_source_badge_no_key">bez klíče</string>
     <string name="det_source_no_artwork">%1$s nemá grafiku %2$s</string>
     <string name="det_source_igdb_needs">IGDB vyžaduje Client ID a Secret — přidejte je v Nastavení ▸ Grafika</string>
+    <string name="det_source_ss_needs">ScreenScraper vyžaduje vývojářskou dvojici — přidejte ji v Nastavení ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s vyžaduje klíč API — přidejte jej v Nastavení ▸ Grafika</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s nelze prohledat podle názvu — nejsou alternativy k výběru.</string>

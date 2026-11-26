@@ -478,6 +478,7 @@
     <string name="det_source_badge_no_key">sense clau</string>
     <string name="det_source_no_artwork">%1$s no té imatges de tipus %2$s</string>
     <string name="det_source_igdb_needs">IGDB necessita un ID i un secret de client — afegeix-los a Configuració ▸ Imatges</string>
+    <string name="det_source_ss_needs">ScreenScraper necessita una parella de desenvolupador — afegeix-ne una a Configuració ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s necessita una clau d\'API — afegeix-ne una a Configuració ▸ Imatges</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">A %1$s no s\'hi pot cercar per títol — no hi ha alternatives per triar.</string>

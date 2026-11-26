@@ -464,6 +464,7 @@
     <string name="det_source_badge_no_key">geen sleutel</string>
     <string name="det_source_no_artwork">%1$s heeft geen artwork van het type %2$s</string>
     <string name="det_source_igdb_needs">IGDB heeft een client-ID en -geheim nodig — voeg ze toe in Instellingen ▸ Artwork</string>
+    <string name="det_source_ss_needs">ScreenScraper heeft een ontwikkelaarspaar nodig — voeg er een toe in Instellingen ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s heeft een API-sleutel nodig — voeg er een toe in Instellingen ▸ Artwork</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s kan niet op titel worden doorzocht — er zijn geen alternatieven om uit te kiezen.</string>

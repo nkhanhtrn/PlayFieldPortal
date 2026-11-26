@@ -475,6 +475,7 @@
     <string name="det_source_badge_no_key">kein Schlüssel</string>
     <string name="det_source_no_artwork">%1$s hat kein %2$s-Artwork</string>
     <string name="det_source_igdb_needs">IGDB benötigt eine Client-ID und ein Secret – füge sie unter Einstellungen ▸ Artwork hinzu</string>
+    <string name="det_source_ss_needs">ScreenScraper benötigt ein Entwicklerpaar — in Einstellungen ▸ Artwork hinzufügen</string>
     <string name="det_source_needs_key">%1$s benötigt einen API-Schlüssel – füge einen unter Einstellungen ▸ Artwork hinzu</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s kann nicht nach Titel durchsucht werden – es gibt keine Alternativen zur Auswahl.</string>

@@ -69,6 +69,8 @@ class ArtworkSettingsViewModelTest {
         every { metadataKeyProvider.igdbClientIdFlow }   returns flowOf(null)
         every { metadataKeyProvider.tgdbKeyFlow }        returns flowOf(null)
         every { metadataKeyProvider.ssUsernameFlow }     returns flowOf(null)
+        every { metadataKeyProvider.ssDevIdFlow }        returns flowOf(null)
+        every { metadataKeyProvider.ssDevPairFlow }      returns flowOf(false)
         // ssEnabled comes from the credential source (bundled dev pair), not a build constant,
         // so it is an extra combine upstream — a relaxed mock returns a Flow that never emits,
         // which would stall uiState at its initial value.
@@ -103,6 +105,7 @@ class ArtworkSettingsViewModelTest {
         scrapePreferences   = scrapePreferences,
         igdbApi             = igdbApi,
         screenScraperApi    = screenScraperApi,
+        bundledSsPair       = mockk(relaxed = true) { every { bundledPairPresent } returns false },
         importManager = mockk(relaxed = true) {
             every { folderState } returns folderStateFlow
         },

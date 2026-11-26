@@ -520,6 +520,7 @@
     <string name="det_source_badge_no_key">لا مفتاح</string>
     <string name="det_source_no_artwork">لا توجد لدى %1$s صور فنية من نوع %2$s</string>
     <string name="det_source_igdb_needs">يحتاج IGDB إلى Client ID وSecret — أضِفهما من الإعدادات ▸ الصور الفنية</string>
+    <string name="det_source_ss_needs">يحتاج ScreenScraper إلى زوج مطوّر — أضِف واحدًا في الإعدادات ▸ Artwork</string>
     <string name="det_source_needs_key">يحتاج %1$s إلى مفتاح API — أضِف واحدًا من الإعدادات ▸ الصور الفنية</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">لا يمكن البحث في %1$s بالعنوان — لا توجد بدائل للاختيار منها.</string>

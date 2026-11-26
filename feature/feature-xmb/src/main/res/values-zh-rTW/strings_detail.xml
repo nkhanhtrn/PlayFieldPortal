@@ -453,6 +453,7 @@
     <string name="det_source_badge_no_key">無金鑰</string>
     <string name="det_source_no_artwork">%1$s 沒有%2$s圖片</string>
     <string name="det_source_igdb_needs">IGDB 需要用戶端 ID 和密鑰，請在「設定 ▸ 圖片」中新增</string>
+    <string name="det_source_ss_needs">ScreenScraper 需要開發者憑證組 — 在 設定 ▸ Artwork 中新增</string>
     <string name="det_source_needs_key">%1$s 需要 API 金鑰，請在「設定 ▸ 圖片」中新增</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s 無法依標題搜尋，沒有其他可選擇的項目。</string>

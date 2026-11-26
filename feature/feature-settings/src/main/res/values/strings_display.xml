@@ -399,9 +399,20 @@
     <!-- ScreenScraper status row: whether the provider works in this build. -->
     <string name="setd_ss_status">Status</string>
     <string name="setd_ss_status_active_sublabel">Hash-based scraping is active (built-in developer pair)</string>
-    <string name="setd_ss_status_inactive_sublabel">ScreenScraper is unavailable in this build — no developer pair was bundled</string>
+    <string name="setd_ss_status_inactive_sublabel">ScreenScraper is off — no developer pair is set. Save one below, from a screenscraper.fr registration</string>
     <string name="setd_ss_active">Active</string>
     <string name="setd_ss_inactive">Inactive</string>
+    <!-- Shown only when this build compiled no developer pair in, so the user's pair unlocks scraping. -->
+    <string name="setd_group_ss_dev">ScreenScraper developer pair</string>
+    <string name="setd_ss_dev_id">Developer ID</string>
+    <string name="setd_ss_dev_id_placeholder">devid from screenscraper.fr</string>
+    <!-- Label of a password field. -->
+    <string name="setd_ss_dev_password">Developer password</string>
+    <string name="setd_ss_dev_password_placeholder">devpassword from screenscraper.fr</string>
+    <string name="setd_ss_dev_password_helper">Required before ScreenScraper answers anything — register at screenscraper.fr to get a pair. Overrides nothing: this build shipped without one. Stored encrypted on this device (Android Keystore).</string>
+    <string name="setd_save_dev_pair">Save developer pair</string>
+    <string name="setd_clear_ss_dev_pair">Clear developer pair</string>
+    <string name="setd_clear_ss_dev_pair_sublabel">ScreenScraper turns off until a pair is saved again</string>
     <string name="setd_group_ss_account">ScreenScraper account (optional)</string>
     <!-- %1$s is the saved username. -->
     <string name="setd_ss_username_saved">Username (saved: %1$s)</string>
@@ -421,6 +432,7 @@
     <string name="setd_secret_tgdb_key">TheGamesDB key</string>
     <string name="setd_secret_igdb_secret">IGDB client secret</string>
     <string name="setd_secret_ss_password">ScreenScraper password</string>
+    <string name="setd_secret_ss_dev_password">ScreenScraper developer password</string>
     <!-- %1$s is one of the secret names above. -->
     <string name="setd_secret_unprotected">%1$s was saved, but this device\'s secure keystore was unavailable, so it is stored unencrypted. Clearing and re-entering it later will try again.</string>
 

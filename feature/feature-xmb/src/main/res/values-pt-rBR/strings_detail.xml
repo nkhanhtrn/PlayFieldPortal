@@ -519,6 +519,7 @@
     <string name="det_source_badge_no_key">sem chave</string>
     <string name="det_source_no_artwork">%1$s não tem artes de %2$s</string>
     <string name="det_source_igdb_needs">O IGDB precisa de um Client ID e um Secret — adicione-os em Configurações ▸ Artes</string>
+    <string name="det_source_ss_needs">O ScreenScraper precisa de um par de desenvolvedor — adicione um em Configurações ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s precisa de uma chave de API — adicione uma em Configurações ▸ Artes</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">Não é possível pesquisar por título em %1$s — não há alternativas para escolher.</string>

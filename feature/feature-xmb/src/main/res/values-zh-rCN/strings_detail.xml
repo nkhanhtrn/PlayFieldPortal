@@ -460,6 +460,7 @@
     <string name="det_source_badge_no_key">无密钥</string>
     <string name="det_source_no_artwork">%1$s 没有%2$s图片</string>
     <string name="det_source_igdb_needs">IGDB 需要客户端 ID 和密钥，请在“设置 ▸ 图片”中添加</string>
+    <string name="det_source_ss_needs">ScreenScraper 需要开发者凭据对 — 在 设置 ▸ Artwork 中添加</string>
     <string name="det_source_needs_key">%1$s 需要 API 密钥，请在“设置 ▸ 图片”中添加</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s 无法按标题搜索，因此没有其他可选项。</string>

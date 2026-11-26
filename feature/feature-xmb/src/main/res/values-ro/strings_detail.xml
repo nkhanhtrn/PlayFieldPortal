@@ -479,6 +479,7 @@
     <string name="det_source_badge_no_key">fără cheie</string>
     <string name="det_source_no_artwork">%1$s nu are artwork %2$s</string>
     <string name="det_source_igdb_needs">IGDB necesită un Client ID și un Secret — adaugă-le în Setări ▸ Artwork</string>
+    <string name="det_source_ss_needs">ScreenScraper are nevoie de o pereche de dezvoltator — adăugați una în Setări ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s necesită o cheie API — adaug-o în Setări ▸ Artwork</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s nu poate fi căutat după titlu — nu există alternative din care să alegi.</string>

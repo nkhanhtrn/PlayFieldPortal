@@ -6,6 +6,18 @@ All notable changes to Play Field Portal are documented here. This project follo
 ## [Unreleased]
 
 ### Added
+- **The ScreenScraper developer pair can now be entered in the app** (Settings ▸ Library ▸
+  Artwork ▸ ScreenScraper developer pair). A build that ships without the pair compiled in (this
+  fork) is unlocked by typing one in — no rebuild — and the saved pair overrides any bundled one.
+  Same storage rules as the other scraper secrets: the id in plain preferences, the password sealed
+  with the Android Keystore; a half-entered pair never mixes with the build\'s half. The pair is
+  required before ScreenScraper answers anything: register at screenscraper.fr to get one.
+
+### Changed
+- **The Artwork Studio no longer draws ScreenScraper as a live source when it is off.** A build
+  with no pair in force lists it disabled with a "needs a developer pair" badge, instead of drawing
+  it enabled and reporting every request as "didn\'t answer" as if the network were down.
+
 - **Video snap sound (Settings ▸ Artwork ▸ Art Preferences).** The focused game's in-icon video
   snap can now play its audio instead of decoding silently — the background music steps aside
   for as long as the snap runs. Off by default, like the PSP's own silent ICON1, and travels with

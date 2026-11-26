@@ -54,6 +54,8 @@ fun ArtworkSettingsScreen(
     var igdbClientIdDraft by remember(state.igdbClientId) { mutableStateOf("") }
     var igdbClientSecretDraft by remember { mutableStateOf("") }
     var ssUsernameDraft by remember(state.ssUsername) { mutableStateOf("") }
+    var ssDevIdDraft by remember(state.hasSsDevPair) { mutableStateOf("") }
+    var ssDevPasswordDraft by remember(state.hasSsDevPair) { mutableStateOf("") }
     var ssPasswordDraft by remember { mutableStateOf("") }
 
     // Debug builds only. Any MIME type: pickers often report .properties files as octet-stream.
@@ -415,9 +417,9 @@ fun ArtworkSettingsScreen(
             }
 
             // ── ScreenScraper provider status ────────────────────────────────
-            // The WebAPI rejects every call without a devid/devpassword pair. This build ships an
-            // obfuscated built-in pair (there is no user-entered override), so the provider works
-            // out of the box; the optional user account below only raises the rate limit/quota.
+            // The WebAPI rejects every call without a devid/devpassword pair. One is in force when
+            // the build bundled it OR the user saved one below; the optional user account only
+            // raises the rate limit/quota.
             SettingsGroup("ScreenScraper")
 
             SettingsValueRow(
@@ -436,6 +438,46 @@ fun ArtworkSettingsScreen(
                     sublabel = stringResource(R.string.setd_tap_to_dismiss),
                     onClick  = { viewModel.dismissUnprotectedSecretWarning() },
                 )
+            }
+
+            // ── ScreenScraper developer pair ─────────────────────────────────
+            // Shown only when the build compiled no pair in — a pair saved here is the only way
+            // this build scrapes, and it takes effect the moment it is saved (no rebuild).
+            if (!state.bundledSsDevPair) {
+                SettingsGroup(stringResource(R.string.setd_group_ss_dev))
+
+                SettingsTextFieldRow(
+                    label         = stringResource(R.string.setd_ss_dev_id),
+                    value         = ssDevIdDraft,
+                    onValueChange = { ssDevIdDraft = it },
+                    placeholder   = stringResource(if (state.hasSsDevPair) R.string.setd_ss_tap_to_replace else R.string.setd_ss_dev_id_placeholder),
+                )
+                SettingsTextFieldRow(
+                    label         = stringResource(R.string.setd_ss_dev_password),
+                    value         = ssDevPasswordDraft,
+                    onValueChange = { ssDevPasswordDraft = it },
+                    placeholder   = stringResource(if (state.hasSsDevPair) R.string.setd_key_replace_placeholder else R.string.setd_ss_dev_password_placeholder),
+                    isPassword    = true,
+                    helper        = stringResource(R.string.setd_ss_dev_password_helper),
+                )
+
+                if (ssDevIdDraft.isNotBlank() && ssDevPasswordDraft.isNotBlank()) {
+                    SettingsRow(
+                        label   = stringResource(R.string.setd_save_dev_pair),
+                        onClick = {
+                            viewModel.saveSsDevPair(ssDevIdDraft, ssDevPasswordDraft)
+                            ssDevIdDraft = ""
+                            ssDevPasswordDraft = ""
+                        },
+                    )
+                }
+                if (state.hasSsDevPair) {
+                    SettingsRow(
+                        label    = stringResource(R.string.setd_clear_ss_dev_pair),
+                        sublabel = stringResource(R.string.setd_clear_ss_dev_pair_sublabel),
+                        onClick  = { viewModel.clearSsDevPair() },
+                    )
+                }
             }
 
             // ── ScreenScraper user account (optional) ─────────────────────────
