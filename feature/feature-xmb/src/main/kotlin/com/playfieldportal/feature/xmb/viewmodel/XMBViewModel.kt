@@ -2124,6 +2124,19 @@ class XMBViewModel @Inject constructor(
         gamepadInputHandler.scope = viewModelScope
         // Shift is a hold on PFP's keyboard: its release ends the capitals.
         gamepadInputHandler.onShiftReleased = { virtualKeyboard.onShiftReleased() }
+        // The Start+Select chord is the App Drawer's way in from the home screen (Back's old job
+        // there). Only at the XMB root with nothing else up; anywhere else the handler falls back
+        // to the first key's own action, so Start and Select keep their solo meanings everywhere.
+        gamepadInputHandler.onChordStartSelect = {
+            val s = _uiState.value
+            if (s.hasBlockingOverlay || s.isInSubItem || s.markMode) {
+                false
+            } else {
+                menuSound.play(MenuSound.SELECT)
+                onOpenAppDrawer()
+                true
+            }
+        }
         observeContextMenuHintIdle()
         observeContextMenuOpening()
         observeIconDisplayMode()
@@ -6779,11 +6792,11 @@ class XMBViewModel @Inject constructor(
             GamepadAction.SELECT     ->
                 if (state.markMode) toggleMark(state.focusedItem) else onItemSelected(state.selectedItemIndex)
             GamepadAction.BACK       -> {
-                menuSound.play(MenuSound.BACK)
                 // Multi-select ends first, leaving the list exactly where it is.
-                if (state.markMode) { exitMarkMode(); return }
-                // One level up, or the App Drawer when there is no level left to leave.
-                if (!backOutOfDrill(state)) onOpenAppDrawer()
+                if (state.markMode) { menuSound.play(MenuSound.BACK); exitMarkMode(); return }
+                // One level up. At the root there is nothing left to leave — the App Drawer is
+                // the Start+Select chord now (see the init wiring), so Back stays Back.
+                if (backOutOfDrill(state)) menuSound.play(MenuSound.BACK)
             }
             // Y / Triangle — the same menu a long-press opens, through one resolver.
             GamepadAction.OPEN_CONTEXT_MENU -> openContextMenuFor(
@@ -9402,16 +9415,16 @@ class XMBViewModel @Inject constructor(
         return true
     }
 
-    /** Touch: the left-edge-swipe Back — exit an open folder, or open the app drawer at the root
-     *  (mirrors the gamepad BACK behaviour on the home screen). No-op while an overlay is up. */
+    /** Touch: the left-edge-swipe Back — exit an open folder. At the root the swipe ends: the
+     *  App Drawer is the Start+Select chord (or the on-screen drawer button — a visible
+     *  affordance), so a stray swipe can no longer open a drawer over the cross. No-op while an
+     *  overlay is up. */
     fun onHomeBack() {
         markTouchInput()
         val s = _uiState.value
         if (s.hasBlockingOverlay) return
-        menuSound.play(MenuSound.BACK)
-        // Multi-select ends first, as it does for the controller's BACK.
-        if (s.markMode) { exitMarkMode(); return }
-        if (!backOutOfDrill(s)) onOpenAppDrawer()
+        if (s.markMode) { menuSound.play(MenuSound.BACK); exitMarkMode(); return }
+        if (backOutOfDrill(s)) menuSound.play(MenuSound.BACK)
     }
 
     // ── Item selection ────────────────────────────────────────────────────────

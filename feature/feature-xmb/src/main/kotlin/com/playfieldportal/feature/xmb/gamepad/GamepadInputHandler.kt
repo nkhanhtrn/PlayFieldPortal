@@ -131,6 +131,77 @@ class GamepadInputHandler @Inject constructor(
     // every other action is complete the moment it is emitted. Set by XMBViewModel.
     var onShiftReleased: (() -> Unit)? = null
 
+    // Start+Select chord, set by XMBViewModel: invoked when both land within the chord window.
+    // Returns true if the chord did something (the home screen opens the App Drawer); false lets
+    // the handler fall back to the first key's own action, so the chord is a no-op elsewhere.
+    var onChordStartSelect: (() -> Boolean)? = null
+
+    // Chord state: the pair's held keycodes, and the first key's solo action held back for the
+    // window (START's HOME / SELECT's CATEGORY_MENU) so a chord can claim it before it fires.
+    private val chordHeldKeys = mutableSetOf<Int>()
+    private var chordPendingAction: GamepadAction? = null
+    private var chordPendingKey: Int? = null
+    private var chordPendingJob: Job? = null
+
+    /** How long the first key's solo waits for the second of the pair before it fires anyway. */
+    internal val chordWindowMs: Long = 200L
+
+    private fun handleChordKey(event: KeyEvent): Boolean {
+        registry.markActive(event.deviceId)
+        return when (event.action) {
+            KeyEvent.ACTION_DOWN -> {
+                if (event.repeatCount == 0) {
+                    chordHeldKeys += event.keyCode
+                    if (chordHeldKeys.size == 2) {
+                        // The second of the pair while the first's solo is still held back: the
+                        // chord wins and swallows both keys. The ViewModel decides whether it
+                        // applies; if not, the first key's solo fires as if no chord happened.
+                        chordPendingJob?.cancel()
+                        chordPendingJob = null
+                        val pending = chordPendingAction
+                        chordPendingKey = null
+                        chordPendingAction = null
+                        val handled = onChordStartSelect?.invoke() ?: false
+                        if (!handled && pending != null) emit(pending, physical = true)
+                    } else {
+                        // First of the pair: its solo waits out the window so the chord can claim it.
+                        val solo = currentMappings.actionFor(event.keyCode) ?: return true
+                        chordPendingAction = solo
+                        chordPendingKey = event.keyCode
+                        chordPendingJob = scope?.launch {
+                            delay(chordWindowMs)
+                            // Held past the window: the solo fires while the key is still down, as
+                            // consoles do — and the pair's held state resets, so a second press of
+                            // the other key after this starts a fresh window, not a stale chord.
+                            chordPendingJob = null
+                            val fire = chordPendingAction
+                            chordPendingAction = null
+                            chordPendingKey = null
+                            chordHeldKeys.clear()
+                            if (fire != null) emit(fire, physical = true)
+                        }
+                    }
+                }
+                true
+            }
+            KeyEvent.ACTION_UP -> {
+                chordHeldKeys -= event.keyCode
+                // A quick tap, no chord: the solo fires on release — as snappy as before the
+                // chord existed. Only the key that armed the pending solo may release it.
+                if (chordPendingKey == event.keyCode) {
+                    chordPendingJob?.cancel()
+                    chordPendingJob = null
+                    chordPendingKey = null
+                    val pending = chordPendingAction
+                    chordPendingAction = null
+                    if (pending != null) emit(pending, physical = true)
+                }
+                true
+            }
+            else -> true
+        }
+    }
+
     // Called by MainActivity.dispatchKeyEvent
     fun onKeyEvent(event: KeyEvent): Boolean {
         // During button remapping: capture the raw keyCode before any action translation.
@@ -155,6 +226,16 @@ class GamepadInputHandler @Inject constructor(
                 }
                 return true
             }
+        }
+
+        // The Start+Select chord: the App Drawer's way in from the home screen (Back's old job
+        // there — see XMBViewModel.onChordStartSelect). Either key alone does its own thing,
+        // but each solo waits out the chord window first so a chord never flickers a panel open:
+        // a quick tap fires the solo on release, a hold past the window fires it while held.
+        if (event.keyCode == KeyEvent.KEYCODE_BUTTON_START ||
+            event.keyCode == KeyEvent.KEYCODE_BUTTON_SELECT
+        ) {
+            return handleChordKey(event)
         }
 
         // Accept any keycode we have a binding for — don't filter by source because
