@@ -1335,7 +1335,7 @@ telemetry, and no account. Everything is HTTPS.
 | Destination | When | What is sent |
 |---|---|---|
 | **SteamGridDB** (`www.steamgriddb.com`) | Artwork fetches, Auto-Match title lookups | Game titles / ids, your SteamGridDB key |
-| **ScreenScraper** (`api.screenscraper.fr`) | Artwork and metadata fetches | Game identifiers, the built-in developer pair and your optional user account |
+| **ScreenScraper** (`api.screenscraper.fr`) | Artwork and metadata fetches | Game identifiers, the developer pair in force (one saved in Settings ▸ Library ▸ Artwork, else the build's bundled one) and your optional user account |
 | **TheGamesDB** (`api.thegamesdb.net`) | Artwork and metadata fetches, if you added a key | Game titles, your key |
 | **IGDB** (`api.igdb.com`, `images.igdb.com`; sign-in via `id.twitch.tv`) | Metadata and artwork, if you added credentials | Game titles, your client credentials |
 | **Steam storefront** (`store.steampowered.com`, `api.steampowered.com`, Steam's image CDN) and **GOG** (`catalog.gog.com`, `api.gog.com`) | *Store Match* and storefront metadata for PC games; no key | Game titles / store ids |
@@ -1391,7 +1391,7 @@ sanitized and require you to **confirm each one** before it appears.
 | New ROM file types aren't found after a knowledge import | Rescan — *Emulator knowledge* lists the consoles that gained file types. |
 | Disc/multi-file game not found | Open the game's console folder in a file manager and confirm the file is there (for a `.cue`, `.gdi`, `.m3u` and similar, its track files must sit beside it — PFP gives the emulator read access to that folder at launch); if the console uses a legacy raw-path library, re-grant its folder in *Settings › Library › Library Manager*. |
 | New artwork is paused ("Artwork paused. Relink your artwork folder to save new art.", AR-1001) | PFP can't reach your artwork folder (permission lost or folder deleted). Choose **Relink folder** in the prompt, or *Settings › Library › Artwork › Artwork Folder & Import › Change artwork folder*. Existing art keeps showing meanwhile. |
-| Artwork won't download | Add a SteamGridDB (or other) API key in *Settings › Library › Artwork* and check your connection. |
+| Artwork won't download | Add a SteamGridDB (or other) API key in *Settings › Library › Artwork* and check your connection. ScreenScraper additionally needs a developer pair — builds that don't bundle one show the pair fields in that screen. |
 | A hidden coin still says "Steam keeps this one's description secret" | Run *Update Installed Achievements*; if no source has the text, it stays that way. |
 | Interface too big/small or off-center | Tune it in *Settings › Interface › Display › Adjust XMB Layout*. |
 | D-Pad ◀ doesn't leave a Settings screen | By design — use **B / ◯**. Left Backs Out applies to XMB folders and flyouts. |

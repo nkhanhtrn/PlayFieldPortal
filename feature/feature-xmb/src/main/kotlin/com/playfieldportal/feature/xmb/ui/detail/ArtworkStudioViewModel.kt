@@ -775,6 +775,7 @@ class ArtworkStudioViewModel @Inject constructor(
     // Concrete store for the pass-2 record-driven ops (provenance, restore, reset, crop, info).
     private val routingStore: com.playfieldportal.feature.artwork.store.RoutingArtworkStore,
     private val ssMediaCatalog: com.playfieldportal.feature.artwork.api.SsMediaCatalog,
+    private val screenScraperApi: com.playfieldportal.feature.artwork.api.ScreenScraperApi,
     private val steamGridDb: SteamGridDbApi,
     private val sgdbKeyProvider: SgdbApiKeyProvider,
     private val theGamesDb: com.playfieldportal.feature.artwork.TheGamesDbApi,
@@ -1574,6 +1575,12 @@ class ArtworkStudioViewModel @Inject constructor(
     /** Re-reads which keyed providers can be asked. Cheap DataStore reads — safe on every open. */
     private suspend fun refreshProviderAvailability() {
         val unavailable = buildSet {
+            // ScreenScraper's pair is not an in-app key: it ships in the build (or is saved in
+            // Settings), so a build without either is listed-but-disabled like the keyless
+            // providers, instead of drawing enabled and failing every request as if the network
+            // were down. ssuserInfos would waste one of the account's limited log lines, so this
+            // is the cheap isEnabled() check, not a live credential test.
+            if (!screenScraperApi.isEnabled()) add(StudioSource.SCREENSCRAPER)
             if (sgdbKeyProvider.getKey().isNullOrBlank()) add(StudioSource.STEAMGRIDDB)
             if (!theGamesDb.hasApiKey()) add(StudioSource.THEGAMESDB)
             if (!igdbApi.hasCredentials()) add(StudioSource.IGDB)
@@ -1598,6 +1605,7 @@ class ArtworkStudioViewModel @Inject constructor(
     private fun unavailableReason(source: StudioSource): UiText = when {
         !servesKind(source, tab().kind) -> UiText.res(R.string.det_source_no_artwork, source.label, tab().label)
         source == StudioSource.IGDB     -> UiText.res(R.string.det_source_igdb_needs)
+        source == StudioSource.SCREENSCRAPER -> UiText.res(R.string.det_source_ss_needs)
         else                            -> UiText.res(R.string.det_source_needs_key, source.label)
     }
 

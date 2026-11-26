@@ -531,6 +531,7 @@
     <string name="det_source_badge_no_key">нет ключа</string>
     <string name="det_source_no_artwork">В %1$s нет обложек %2$s</string>
     <string name="det_source_igdb_needs">Для IGDB нужны Client ID и Secret — добавьте их в «Настройки ▸ Обложки»</string>
+    <string name="det_source_ss_needs">Для ScreenScraper нужна пара разработчика — добавьте её в Настройки ▸ Artwork</string>
     <string name="det_source_needs_key">Для %1$s нужен ключ API — добавьте его в «Настройки ▸ Обложки»</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">В %1$s нельзя искать по названию — выбирать не из чего.</string>

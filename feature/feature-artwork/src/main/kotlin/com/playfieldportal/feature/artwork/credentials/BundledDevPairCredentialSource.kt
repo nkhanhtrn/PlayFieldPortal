@@ -31,44 +31,24 @@ object DevPairDecoder {
 }
 
 /**
- * The credential source: the developer pair ships obfuscated inside the APK ([DevPairDecoder]);
- * the optional user account is whatever the user entered in Settings ▸ Artwork.
+ * The build's developer pair, reassembled from the XOR-encoded `BuildConfig` arrays. Used by
+ * [RuntimeDevPairCredentialSource] as the fallback when the user never saved a pair of their own.
  *
- * There is no user-entered developer pair — the build-time pair is the only one. ScreenScraper
- * validates the pair as a unit, so there is deliberately no code path that can mix a stored half
- * with a bundled half.
+ * ScreenScraper validates the pair as a unit, so there is deliberately no code path that can mix
+ * a stored half with a bundled half.
  */
 @Singleton
 class BundledDevPairCredentialSource @Inject constructor(
     private val keys: MetadataApiKeyProvider,
-) : MetadataCredentialSource {
+) {
 
-    private fun bundledPair(): Pair<String, String>? {
+    /** The bundled pair, or null when this build compiled without one. */
+    fun pairOrNull(): Pair<String, String>? {
         val devId = DevPairDecoder.decode(BuildConfig.SS_DEV_ID_SHARE, BuildConfig.SS_DEV_ID_MASK)
         val devPassword = DevPairDecoder.decode(BuildConfig.SS_DEV_PASSWORD_SHARE, BuildConfig.SS_DEV_PASSWORD_MASK)
         return if (devId != null && devPassword != null) devId to devPassword else null
     }
 
-    override val screenScraper: Flow<ScreenScraperCredentials?> =
-        keys.ssUsernameFlow.map { userId ->
-            // getSsPassword is a suspend read; map's transform is suspend. The dev pair is a
-            // build constant, so the username flow is a sufficient reactivity trigger here.
-            val (devId, devPassword) = bundledPair() ?: return@map null
-            ScreenScraperCredentials.of(
-                devId        = devId,
-                devPassword  = devPassword,
-                userId       = userId,
-                userPassword = keys.getSsPassword(),
-            )
-        }
-
-    override suspend fun screenScraperNow(): ScreenScraperCredentials? {
-        val (devId, devPassword) = bundledPair() ?: return null
-        return ScreenScraperCredentials.of(
-            devId        = devId,
-            devPassword  = devPassword,
-            userId       = keys.getSsUsername(),
-            userPassword = keys.getSsPassword(),
-        )
-    }
+    /** True when this build compiled a pair in — Settings uses it to decide whether to offer entry. */
+    val bundledPairPresent: Boolean get() = pairOrNull() != null
 }

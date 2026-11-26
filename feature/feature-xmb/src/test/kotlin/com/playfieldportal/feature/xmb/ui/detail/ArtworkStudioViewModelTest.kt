@@ -138,8 +138,14 @@ class ArtworkStudioViewModelTest {
             coEvery { styles() } returns emptyMap()
         }
 
+    // ScreenScraper: these tests never scrape, so the api is only asked whether it is enabled —
+    // these are "the pair is in force" tests (the catalog and match flows do the scraping).
+    private val screenScraperApi = mockk<com.playfieldportal.feature.artwork.api.ScreenScraperApi> {
+        coEvery { isEnabled() } returns true
+    }
+
     private fun viewModel() = ArtworkStudioViewModel(
-        context, gameRepository, artworkStore, routingStore, ssMediaCatalog,
+        context, gameRepository, artworkStore, routingStore, ssMediaCatalog, screenScraperApi,
         steamGridDb, sgdbKeyProvider, theGamesDb, igdbApi, steamStorefront, videoSnapTranscoder, matchEvidence,
         cropPreviewPreferences, sgdbStylePreferences,
         // Nothing kept between opens: these tests count what each open asks.

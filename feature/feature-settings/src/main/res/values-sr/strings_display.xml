@@ -401,9 +401,19 @@
     <!-- ScreenScraper status row: whether the provider works in this build. -->
     <string name="setd_ss_status">Статус</string>
     <string name="setd_ss_status_active_sublabel">Преузимање на основу хеша је активно (уграђени програмерски пар)</string>
-    <string name="setd_ss_status_inactive_sublabel">ScreenScraper није доступан у овој верзији — програмерски пар није приложен</string>
+    <string name="setd_ss_status_inactive_sublabel">ScreenScraper је искључен — нема развојног пара. Сачувајте га доле, из регистрације на screenscraper.fr</string>
     <string name="setd_ss_active">Активно</string>
     <string name="setd_ss_inactive">Неактивно</string>
+    <string name="setd_group_ss_dev">ScreenScraper развојни пар</string>
+    <string name="setd_ss_dev_id">ИД развојног програмера</string>
+    <string name="setd_ss_dev_id_placeholder">devid са screenscraper.fr</string>
+    <string name="setd_ss_dev_password">Лозинка развојног програмера</string>
+    <string name="setd_ss_dev_password_placeholder">devpassword са screenscraper.fr</string>
+    <string name="setd_ss_dev_password_helper">Потребно пре него што ScreenScraper уопште одговори — региструјте се на screenscraper.fr. Ово издање стиже без пара. Чувано шифровано на овом уређају (Android Keystore).</string>
+    <string name="setd_save_dev_pair">Сачувај развојни пар</string>
+    <string name="setd_clear_ss_dev_pair">Обриши развојни пар</string>
+    <string name="setd_clear_ss_dev_pair_sublabel">ScreenScraper остаје искључен док се поново не сачува пар</string>
+    <string name="setd_secret_ss_dev_password">Лозинка развојног програмера ScreenScraper</string>
     <string name="setd_group_ss_account">ScreenScraper налог (опционално)</string>
     <!-- %1$s is the saved username. -->
     <string name="setd_ss_username_saved">Корисничко име (сачувано: %1$s)</string>

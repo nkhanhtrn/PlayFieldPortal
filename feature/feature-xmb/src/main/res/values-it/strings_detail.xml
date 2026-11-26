@@ -479,6 +479,7 @@
     <string name="det_source_badge_no_key">senza chiave</string>
     <string name="det_source_no_artwork">%1$s non ha immagini %2$s</string>
     <string name="det_source_igdb_needs">IGDB richiede Client ID e Secret: aggiungili in Impostazioni ▸ Immagini</string>
+    <string name="det_source_ss_needs">ScreenScraper richiede una coppia sviluppatore — aggiungine una in Impostazioni ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s richiede una chiave API: aggiungine una in Impostazioni ▸ Immagini</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s non è ricercabile per titolo: non ci sono alternative tra cui scegliere.</string>

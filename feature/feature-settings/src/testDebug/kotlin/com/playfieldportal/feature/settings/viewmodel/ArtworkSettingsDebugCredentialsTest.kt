@@ -55,6 +55,8 @@ class ArtworkSettingsDebugCredentialsTest {
                 every { igdbClientIdFlow } returns flowOf(null)
                 every { tgdbKeyFlow } returns flowOf(null)
                 every { ssUsernameFlow } returns flowOf(null)
+                every { ssDevIdFlow } returns flowOf(null)
+                every { ssDevPairFlow } returns flowOf(false)
             },
             artworkRepository = mockk(relaxed = true) { coEvery { computeStatus() } returns ArtworkStatus() },
             scrapePreferences = mockk(relaxed = true) {
@@ -63,6 +65,7 @@ class ArtworkSettingsDebugCredentialsTest {
             },
             igdbApi = mockk(relaxed = true),
             screenScraperApi = mockk(relaxed = true) { every { isEnabledFlow } returns flowOf(false) },
+            bundledSsPair = mockk(relaxed = true) { every { bundledPairPresent } returns false },
             importManager = mockk(relaxed = true) {
                 every { folderState } returns MutableStateFlow(ArtworkFolderState.NotLinked(0))
             },

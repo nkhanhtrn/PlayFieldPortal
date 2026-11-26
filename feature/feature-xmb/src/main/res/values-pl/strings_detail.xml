@@ -493,6 +493,7 @@
     <string name="det_source_badge_no_key">brak klucza</string>
     <string name="det_source_no_artwork">%1$s nie ma grafik typu %2$s</string>
     <string name="det_source_igdb_needs">IGDB wymaga Client ID i Secret — dodaj je w Ustawienia ▸ Grafiki</string>
+    <string name="det_source_ss_needs">ScreenScraper wymaga pary dewelopera — dodaj ją w Ustawienia ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s wymaga klucza API — dodaj go w Ustawienia ▸ Grafiki</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s nie obsługuje wyszukiwania po tytule — nie ma alternatyw do wyboru.</string>

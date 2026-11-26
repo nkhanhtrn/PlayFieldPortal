@@ -451,6 +451,7 @@
     <string name="det_source_badge_no_key">キーなし</string>
     <string name="det_source_no_artwork">%1$s には%2$sのアートワークがありません</string>
     <string name="det_source_igdb_needs">IGDB にはクライアント ID とシークレットが必要です。設定 ▸ アートワークで追加してください</string>
+    <string name="det_source_ss_needs">ScreenScraper には開発者ペアが必要です — 設定 ▸ Artwork で追加してください</string>
     <string name="det_source_needs_key">%1$s には API キーが必要です。設定 ▸ アートワークで追加してください</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s はタイトルで検索できないため、選択できる候補がありません。</string>

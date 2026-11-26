@@ -586,6 +586,7 @@
     <string name="det_source_igdb_needs">IGDB needs a Client ID and Secret — add them in Settings ▸ Artwork</string>
     <!-- %1$s is a source name -->
     <string name="det_source_needs_key">%1$s needs an API key — add one in Settings ▸ Artwork</string>
+    <string name="det_source_ss_needs">ScreenScraper needs a developer pair — add one in Settings ▸ Artwork</string>
     <!-- Source chip with a status tag: %1$s is the source, %2$s the tag -->
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <!-- %1$s is a provider name -->

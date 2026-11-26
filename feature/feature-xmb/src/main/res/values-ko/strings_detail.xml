@@ -478,6 +478,7 @@
     <string name="det_source_badge_no_key">키 없음</string>
     <string name="det_source_no_artwork">%1$s에 %2$s 아트워크가 없습니다</string>
     <string name="det_source_igdb_needs">IGDB에는 클라이언트 ID와 시크릿이 필요합니다 — 설정 ▸ 아트워크에서 추가하세요</string>
+    <string name="det_source_ss_needs">ScreenScraper에 개발자 페어가 필요합니다 — 설정 ▸ Artwork에서 추가하세요</string>
     <string name="det_source_needs_key">%1$s에는 API 키가 필요합니다 — 설정 ▸ 아트워크에서 추가하세요</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s은(는) 제목으로 검색할 수 없습니다 — 선택할 다른 후보가 없습니다.</string>

@@ -477,6 +477,7 @@
     <string name="det_source_badge_no_key">nema ključa</string>
     <string name="det_source_no_artwork">%1$s nema grafiku %2$s</string>
     <string name="det_source_igdb_needs">IGDB treba Client ID i Secret — dodajte ih u Postavke ▸ Grafike</string>
+    <string name="det_source_ss_needs">ScreenScraper treba razvojni par — dodajte ga u Podešavanja ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s treba API ključ — dodajte ga u Postavke ▸ Grafike</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s nije moguće pretraživati po naslovu — nema alternativa za odabir.</string>

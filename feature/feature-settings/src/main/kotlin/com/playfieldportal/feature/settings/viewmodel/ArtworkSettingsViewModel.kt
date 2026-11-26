@@ -37,10 +37,13 @@ data class ArtworkSettingsUiState(
     val hasIgdbCredentials: Boolean = false,
     val igdbClientId: String = "",
     val igdbCredentialStatus: UiText? = null,
-    // ScreenScraper: ssEnabled = the bundled developer pair exists and scraping works at all;
-    // the user account is optional and only raises rate limits/quota. There is no user-entered
-    // developer pair — the build ships one (obfuscated) and there is nothing to override it with.
+    // ScreenScraper: ssEnabled = a developer pair is in force (saved here, or the build's
+    // bundled one) and scraping works at all; the user account is optional and only raises rate
+    // limits/quota. bundledSsDevPair = this build compiled a pair in, so the pair fields are not
+    // offered (nothing to unlock); hasSsDevPair = the user saved their own pair, which overrides.
     val ssEnabled: Boolean = false,
+    val bundledSsDevPair: Boolean = false,
+    val hasSsDevPair: Boolean = false,
     val hasSsCredentials: Boolean = false,
     val ssUsername: String = "",
     val ssCredentialStatus: UiText? = null,
@@ -101,6 +104,7 @@ class ArtworkSettingsViewModel @Inject constructor(
     private val scrapePreferences: ArtworkScrapePreferences,
     private val igdbApi: IgdbApi,
     private val screenScraperApi: ScreenScraperApi,
+    private val bundledSsPair: com.playfieldportal.feature.artwork.credentials.BundledDevPairCredentialSource,
     private val importManager: ArtworkImportManager,
     private val iconDisplayPreferences: com.playfieldportal.core.data.repository.IconDisplayPreferences,
     private val cropPreviewPreferences: com.playfieldportal.core.data.repository.CropPreviewPreferences,
@@ -212,8 +216,9 @@ class ArtworkSettingsViewModel @Inject constructor(
     // can change while the screen is open — it has to be a flow in the combine, not a one-shot read.
     private val ssAccounts = combine(
         metadataKeyProvider.ssUsernameFlow,
+        metadataKeyProvider.ssDevPairFlow,
         screenScraperApi.isEnabledFlow,
-    ) { username, enabled -> username to enabled }
+    ) { username, hasDevPair, enabled -> Triple(username, hasDevPair, enabled) }
 
     // SteamGridDB + TheGamesDB keys as one upstream: combine's typed overloads stop at five flows.
     private val apiKeys = combine(
@@ -229,8 +234,10 @@ class ArtworkSettingsViewModel @Inject constructor(
         _extra,
     ) { keys, igdbClientId, ss, preferSgdbHeroes, extra ->
         val (sgdbKey, tgdbKey) = keys
-        val (ssUsername, ssEnabled) = ss
+        val (ssUsername, ssHasDevPair, ssEnabled) = ss
         extra.copy(
+            bundledSsDevPair      = bundledSsPair.bundledPairPresent,
+            hasSsDevPair          = ssHasDevPair,
             hasApiKey             = !sgdbKey.isNullOrBlank(),
             apiKeyMasked          = if (!sgdbKey.isNullOrBlank()) "••••••" else "",
             hasTgdbKey            = !tgdbKey.isNullOrBlank(),
@@ -342,6 +349,20 @@ class ArtworkSettingsViewModel @Inject constructor(
         }
     }
 
+    // ── ScreenScraper developer pair ──────────────────────────────────────
+
+    fun saveSsDevPair(devId: String, devPassword: String) {
+        viewModelScope.launch {
+            val protection = metadataKeyProvider.saveSsDevPair(devId.trim(), devPassword.trim())
+            _extra.update { it.copy(ssCredentialStatus = null) }
+            warnIfUnprotected(UiText.res(R.string.setd_secret_ss_dev_password), protection)
+        }
+    }
+
+    fun clearSsDevPair() {
+        viewModelScope.launch { metadataKeyProvider.clearSsDevPair() }
+    }
+
     fun testSsCredentials(username: String, password: String) {
         viewModelScope.launch {
             _extra.update { it.copy(ssCredentialStatus = UiText.res(R.string.setd_testing)) }
@@ -353,10 +374,6 @@ class ArtworkSettingsViewModel @Inject constructor(
     fun dismissSsCredentialStatus() {
         _extra.update { it.copy(ssCredentialStatus = null) }
     }
-
-    // Note: the ScreenScraper developer pair is not user-entered — it ships obfuscated inside the
-    // APK and is exposed to settings only as the read-only ssEnabled state. See
-    // feature-artwork/credentials/BundledDevPairCredentialSource.kt.
 
     fun dismissUnprotectedSecretWarning() {
         _extra.update { it.copy(unprotectedSecretWarning = null) }

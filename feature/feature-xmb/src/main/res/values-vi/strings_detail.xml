@@ -455,6 +455,7 @@
     <string name="det_source_badge_no_key">chưa có khóa</string>
     <string name="det_source_no_artwork">%1$s không có ảnh minh họa %2$s</string>
     <string name="det_source_igdb_needs">IGDB cần Client ID và Secret — hãy thêm trong Cài đặt ▸ Ảnh minh họa</string>
+    <string name="det_source_ss_needs">ScreenScraper cần một cặp nhà phát triển — thêm một cặp trong Cài đặt ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s cần khóa API — hãy thêm trong Cài đặt ▸ Ảnh minh họa</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">Không thể tìm theo tiêu đề trên %1$s — không có lựa chọn thay thế.</string>

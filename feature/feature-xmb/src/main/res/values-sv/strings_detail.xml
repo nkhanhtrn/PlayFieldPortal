@@ -463,6 +463,7 @@
     <string name="det_source_badge_no_key">ingen nyckel</string>
     <string name="det_source_no_artwork">%1$s har ingen grafik av typen %2$s</string>
     <string name="det_source_igdb_needs">IGDB kräver ett klient-ID och en hemlighet – lägg till dem i Inställningar ▸ Grafik</string>
+    <string name="det_source_ss_needs">ScreenScraper kräver ett utvecklarpar — lägg till ett i Inställningar ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s kräver en API-nyckel – lägg till en i Inställningar ▸ Grafik</string>
     <string name="det_source_with_badge">%1$s · %2$s</string>
     <string name="det_match_cant_search">%1$s kan inte sökas efter titel – det finns inga alternativ att välja mellan.</string>

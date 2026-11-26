@@ -597,6 +597,7 @@
     <string name="det_source_no_artwork">%1$s нема графику: %2$s</string>
     <string name="det_source_igdb_needs">IGDB захтева ID клијента и тајну — додајте их у Подешавања ▸ Графика</string>
     <!-- %1$s is a source name -->
+    <string name="det_source_ss_needs">ScreenScraper-у треба развојни пар — додајте га у Подешавања ▸ Artwork</string>
     <string name="det_source_needs_key">%1$s захтева API кључ — додајте га у Подешавања ▸ Графика</string>
     <!-- Source chip with a status tag: %1$s is the source, %2$s the tag -->
     <string name="det_source_with_badge">%1$s · %2$s</string>
